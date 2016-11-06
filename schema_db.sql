@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost:8889
--- Généré le :  Dim 06 Novembre 2016 à 16:03
+-- Généré le :  Dim 06 Novembre 2016 à 16:30
 -- Version du serveur :  5.5.42
 -- Version de PHP :  7.0.8
 
@@ -87,6 +87,7 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 CREATE TABLE `photo` (
   `id` int(11) NOT NULL,
   `message` text NOT NULL,
+  `photo` varchar(255) NOT NULL,
   `id_place` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
