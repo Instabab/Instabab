@@ -65,17 +65,17 @@ final class UserController
                 } else {
                     $this->logger->info('Error: there is already a user using the given email address');
                     return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                                        'message' => 'Un utilisateur utilise déjà cette adresse e-mail.'));
+                                                                                    'message' => 'Un utilisateur utilise déjà cette adresse e-mail.'));
                 }
             } else {
                 $this->logger->info('Error: the given email address wasn\'t valid');
                 return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                                        'message' => 'L\'adresse e-mail que vous avez fournie n\'est pas valide.'));
+                                                                                'message' => 'L\'adresse e-mail que vous avez fournie n\'est pas valide.'));
             }
         } else {
             $this->logger->info('Error: password and passwordRepeat didn\'t match');
             return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                                        'message' => 'Les deux mots de passe que vous avez entrez ne correspondent pas.'));
+                                                                            'message' => 'Les deux mots de passe que vous avez entrez ne correspondent pas.'));
         }
     }
 }
