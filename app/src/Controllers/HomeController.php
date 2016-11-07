@@ -19,11 +19,11 @@ final class HomeController
         $this->model = $user;
     }
 
-    public function dispatch(Request $request, Response $response, $args)
+    public function displayHomepage(Request $request, Response $response, $args)
     {
         $this->logger->info("Home page action dispatched");
 		
-        $this->view->render($response, 'hello.twig');
+        $this->view->render($response, 'homepage.twig');
 		
         return $response;
     }
