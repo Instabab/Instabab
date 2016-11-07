@@ -4,6 +4,5 @@
 	controller needs to be registered in dependency.php
 */
 
-$app->get('/', 'App\Controllers\HomeController:dispatch')->setName('homepage');
-
-$app->get('/users', 'App\Controllers\UserController:dispatch')->setName('userpage');
+$app->get('/', 'App\Controllers\HomeController:displayHomepage')->setName('homepage');
+$app->get('/register', 'App\Controllers\UserController:registerUser')->setName('register');

@@ -6,6 +6,8 @@ use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+
 final class UserController
 {
     private $view;
@@ -17,15 +19,6 @@ final class UserController
         $this->view = $view;
         $this->logger = $logger;
 		$this->model = $user;
-    }
-
-    public function dispatch(Request $request, Response $response, $args)
-    {
-        $this->logger->info("Home page action dispatched");
-		
-		$users = $this->model->show();
-
-		return $this->view->render($response, 'users.twig', ["data" => $users]);
     }
     
     /**
@@ -46,13 +39,9 @@ final class UserController
         
         if($userForm['password'] == $userForm['passwordRepeat']) {
             if(filter_var($userForm['email'], FILTER_VALIDATE_EMAIL, FILTER_FLAG_PATH_REQUIRED)) {
-                $credentials = [
-                    'email' => $userForm['email'],
-                ];
-                
                 if(User::where('email', $userForm['email'])->get()->count() > 0) {
                     if(!empty($userForm['first_name']) && !empty($userForm['last_name'])) {
-                        //Successful verification
+                        //Successful verifications
                         Sentinel::register($userForm);
                         
                         return $this->view->render($response, 'register.twig', array(   'success' => true, 

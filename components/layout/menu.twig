@@ -1,0 +1,25 @@
+<div class="col-sm-3 col-md-2 sidebar">
+    <div class="top-navigation">
+        <div class="t-menu">MENU</div>
+        <div class="t-img">
+            <img src="images/lines.png" alt="" />
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="drop-navigation drop-navigation">
+        <ul class="nav nav-sidebar">
+            <li class="active"><a href="index.html" class="home-icon"><span class="glyphicon glyphicon-list"></span> Fil d'Actualités</a></li>
+            <li><a href="shows.html" class="user-icon"><span class="glyphicon glyphicon-star"></span> Quentin Claudel</a></li>
+            <li><a href="#" class="menu1"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
+            <li><a href="history.html" class="sub-icon"><span class="glyphicon glyphicon-wrench"></span> Paramètres</a></li>
+        </ul>
+        <!-- script-for-menu -->
+        <script>
+            $( ".top-navigation" ).click(function() {
+                $( ".drop-navigation" ).slideToggle( 300, function() {
+                    // Animation complete.
+                });
+            });
+        </script>
+    </div>
+</div>
