@@ -115,9 +115,9 @@
 							</div>
 						</div>
 						<div class="signup">
-							<form>
-								<input type="text" class="email" placeholder="Adresse mail" required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?"/>
-								<input type="password" placeholder="Mot de passe" required="required" pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
+							<form  method="post" action="/login">
+								<input type="text" name="email" class="email" placeholder="Adresse mail" required="required" pattern="([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?"/>
+								<input type="password" name="password" placeholder="Mot de passe" required="required" pattern=".{6,}" title="Minimum 6 characters required" autocomplete="off" />
 								<input type="submit"  value="Connexion"/>
 							</form>
 						</div>

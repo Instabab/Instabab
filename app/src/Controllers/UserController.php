@@ -68,4 +68,29 @@ final class UserController
                                                                             'message' => 'Les deux mots de passe que vous avez entrez ne correspondent pas.'));
         }
     }
+    
+    /**
+     * Method which check form datas and login the user 
+     */
+     public function login(Request $request, Response $response, $args) {
+         $this->logger->info("Start to login an user");
+
+         //Get form datas and filter them
+         $data = $request->getParsedBody();
+         $userForm = array();
+         $userForm['email'] = filter_var($data['email'], FILTER_SANITIZE_STRING);
+         $userForm['password'] = filter_var($data['password'], FILTER_SANITIZE_STRING);
+         
+         if(filter_var($userForm['email'], FILTER_VALIDATE_EMAIL, FILTER_FLAG_PATH_REQUIRED) && !empty($userForm['password'])) {
+            //Verification of connexion
+             if(Sentinel::forceAuthenticate($userForm)){
+                return $this->view->render($response, 'login.twig', array(   'success' => true, 
+                                                                                        'message' => 'Vous avez bien été connecté.'));
+             } else {
+                 return $this->view->render($response, 'login.twig', array(   'success' => false, 
+                                                                                        'message' => 'Mail ou mot de passe invalide !'));    
+             }
+         }
+         
+     }
 }
