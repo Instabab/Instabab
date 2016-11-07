@@ -39,16 +39,18 @@
 											</div>
 										</div>
 										<div class="signup">
-											<form method="post" action="#">
+											<form method="post" action="/register">
 												<input type="text" name="email" class="email" placeholder="Adresse mail" title="Adresse mail" />
                                                 <input type="text" name="firstName" class="email" placeholder="Prénom" title="Prénom" />
                                                 <input type="text" name="lastName" class="email" placeholder="Nom" title="Nom" />
 												<input type="password" name="password" class="password" placeholder="Mot de passe" title="Mot de passe" required="required" pattern=".{6,}" title="Minimum 6 characters required" />
 												<input type="password" name="passwordVerification" class="password" placeholder="Mot de passe (vérification)" title="Mot de passe (vérification)" required="required" pattern=".{6,}" title="Minimum 6 characters required" />
+                                                <textarea name="description" class="email" style="display:none"></textarea>
+                                                <div class="continue-button">
+												    <input type="submit" value="Inscription" />
+											     </div>
 											</form>
-											<div class="continue-button">
-												<input type="submit"  value="Inscription" />
-											</div>
+											
 										</div>
 										<div class="clearfix"> </div>
 									</div>	

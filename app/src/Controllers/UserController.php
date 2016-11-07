@@ -6,7 +6,9 @@ use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
+
+use App\Models\User;
 
 final class UserController
 {
@@ -32,18 +34,17 @@ final class UserController
         $userForm = array();
         $userForm['email'] = filter_var($data['email'], FILTER_SANITIZE_STRING);
         $userForm['password'] = filter_var($data['password'], FILTER_SANITIZE_STRING);
-        $userForm['passwordRepeat'] = filter_var($data['passwordRepeat'], FILTER_SANITIZE_STRING);
-        $userForm['first_name'] = filter_var($data['first_name'], FILTER_SANITIZE_STRING);
-        $userForm['last_name'] = filter_var($data['last_name'], FILTER_SANITIZE_STRING);
+        $userForm['passwordRepeat'] = filter_var($data['passwordVerification'], FILTER_SANITIZE_STRING);
+        $userForm['first_name'] = filter_var($data['firstName'], FILTER_SANITIZE_STRING);
+        $userForm['last_name'] = filter_var($data['lastName'], FILTER_SANITIZE_STRING);
         $userForm['description'] = filter_var($data['description'], FILTER_SANITIZE_STRING);
         
         if($userForm['password'] == $userForm['passwordRepeat']) {
             if(filter_var($userForm['email'], FILTER_VALIDATE_EMAIL, FILTER_FLAG_PATH_REQUIRED)) {
-                if(User::where('email', $userForm['email'])->get()->count() > 0) {
+                if(User::where('email', $userForm['email'])->get()->count() == 0) {
                     if(!empty($userForm['first_name']) && !empty($userForm['last_name'])) {
                         //Successful verifications
                         Sentinel::register($userForm);
-                        
                         return $this->view->render($response, 'register.twig', array(   'success' => true, 
                                                                                         'message' => 'Bravo '.$userForm['first_name'].' ! Vous avez bien été enregistré.'));
                     } else {

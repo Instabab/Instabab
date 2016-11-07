@@ -5,4 +5,4 @@
 */
 
 $app->get('/', 'App\Controllers\HomeController:displayHomepage')->setName('homepage');
-$app->get('/register', 'App\Controllers\UserController:registerUser')->setName('register');
+$app->post('/register', 'App\Controllers\UserController:registerUser')->setName('register');
