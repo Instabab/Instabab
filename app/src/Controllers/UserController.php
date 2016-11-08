@@ -44,7 +44,7 @@ final class UserController
                 if(User::where('email', $userForm['email'])->get()->count() == 0) {
                     if(!empty($userForm['first_name']) && !empty($userForm['last_name'])) {
                         //Successful verifications
-                        Sentinel::register($userForm);
+                        Sentinel::registerAndActivate($userForm);
                         return $this->view->render($response, 'register.twig', array(   'success' => true, 
                                                                                         'message' => 'Bravo '.$userForm['first_name'].' ! Vous avez bien été enregistré.'));
                     } else {
@@ -83,15 +83,30 @@ final class UserController
          
          if(filter_var($userForm['email'], FILTER_VALIDATE_EMAIL, FILTER_FLAG_PATH_REQUIRED) && !empty($userForm['password'])) {
             //Verification of connexion
-             if($userInfo = Sentinel::forceAuthenticate($userForm)){
+             if($userInfo = Sentinel::authenticate($userForm)){
                  
-                return $this->view->render($response, 'login.twig', array(   'success' => true, 
-                                                                                        'message' => 'Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.'));
+                return $this->view->render($response, 'login.twig', array(  'success' => true, 
+                                                                            'message' => 'Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.',
+                                                                            'connected' => true,
+                                                                            'user' => $userInfo));
              } else {
                  return $this->view->render($response, 'login.twig', array(   'success' => false, 
                                                                                         'message' => 'Mail ou mot de passe invalide !'));    
              }
+         } else {
+              return $this->view->render($response, 'login.twig', array(   'success' => false, 
+                                                                                        'message' => 'Mail invalide !'));    
          }
          
+     }
+    
+     /**
+     * Method which logout the user 
+     */
+     public function logout(Request $request, Response $response, $args) {
+         $this->logger->info("Start to logout an user");
+         Sentinel::logout();
+         
+         return $this->view->render($response, 'homepage.twig', array('connected' => false, 'message' => 'Vous n\'êtes plus connecté.'));
      }
 }

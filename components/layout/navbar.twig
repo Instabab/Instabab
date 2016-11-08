@@ -1,4 +1,4 @@
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -17,98 +17,111 @@
 				</form>
 			</div>
 			<div class="header-top-right">
-				<!--
+                <!-- pop-up-box -->
+				<script type="text/javascript" src="js/modernizr.custom.min.js"></script>    
+                <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+                <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+                <script>
+				    $(document).ready(function() {
+                        $('.popup-with-zoom-anim').magnificPopup({
+                            type: 'inline',
+                            fixedContentPos: false,
+                            fixedBgPos: true,
+                            overflowY: 'auto',
+                            closeBtnInside: true,
+                            preloader: false,
+                            midClick: true,
+                            removalDelay: 300,
+                            mainClass: 'my-mfp-zoom-in'
+                        });													
+                    });
+				</script>	
+                <!--//pop-up-box -->
+				{% if user %}
                     <div class="file">
-                        <a href="#small-dialog3" class="play-icon popup-with-zoom-anim">Partager une Photo</a>
+                        <a href="#dialog-share-picture" class="play-icon popup-with-zoom-anim">Partager une Photo</a>
                     </div>
-
-                -->
+                    <!--//pop-up-box -->
+                <div id="dialog-share-picture" class="mfp-hide small-dialog">
+                    <h3>Partager une Photo</h3> 
+                    <div class="social-sits">
+                        <div class="uploadForm">
+                            <form method="post" action="#">
+                                <textarea class="statut" rows="10" placeholder="Décrivez votre Kebab..."></textarea>
+                                <input type="submit" value="Envoyer" />
+                                </form>
+                            </div>
+				        </div>
+                        <div class="signup">
+                            <div class="upload-right">
+                                <div class="upload-file">
+                                    <div class="services-icon">
+                                        <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
+                                    </div>
+                                    <input type="file" value="Choose file..">
+                                </div>
+                                <div class="upload-info">
+                                    <h5>Sélectionner une Photo</h5>
+                                    <span>ou</span>
+                                    <p>Glisser/Déposer une Photo</p>
+                                </div>
+                            </div>
+                        </div>
+					    <div class="clearfix"> </div>
+				    </div>	
+                
+                    <div class="signin">
+                           <a href="#dialog-disconnect" class="play-icon popup-with-zoom-anim">Deconnexion</a>
+                           <div id="dialog-disconnect" class="mfp-hide small-dialog">
+                            <h3>Êtes-vous sur de vouloir vous déconnecter ?</h3>
+                            <div class="logout">
+                                <form  method="post" action="/logout">
+                                    <input type="submit"  value="Oui"/>
+                                </form>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                {% else %}
 				<div class="signin">
-					<a href="#small-dialog2" class="play-icon popup-with-zoom-anim">Inscription</a>
-					<!-- pop-up-box -->
-									<script type="text/javascript" src="js/modernizr.custom.min.js"></script>    
-									<link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
-									<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
-									<!--//pop-up-box -->
-									<div id="small-dialog2" class="mfp-hide">
-										<h3>Créer un Compte</h3> 
-										<div class="social-sits">
-											<div>
-												<p>En vous inscrivant, vous faites ganger de l'argent à moi, donc hésitez pas à créer plusieurs comptes. Je t'aime. Tu es trop bien. Da Bisous.</p>
-                                                <p>P.S : Ma vie est foutue sans toi. Tu me manques déjà. Écrit moi sur "JeChercheDesFemellesEnChaleur@beauf.com". Merci ;).</p>
-											</div>
-											<div class="button-bottom">
-												<p>Tu as déjà un compte ? Refais en un ! <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Connexion</a></p>
-											</div>
-										</div>
-										<div class="signup">
-											<form method="post" action="/register">
-												<input type="text" name="email" class="email" placeholder="Adresse mail" title="Adresse mail" />
-                                                <input type="text" name="firstName" class="email" placeholder="Prénom" title="Prénom" />
-                                                <input type="text" name="lastName" class="email" placeholder="Nom" title="Nom" />
-												<input type="password" name="password" class="password" placeholder="Mot de passe" title="Mot de passe" required="required" pattern=".{6,}" title="Minimum 6 characters required" />
-												<input type="password" name="passwordVerification" class="password" placeholder="Mot de passe (vérification)" title="Mot de passe (vérification)" required="required" pattern=".{6,}" title="Minimum 6 characters required" />
-                                                <textarea name="description" class="email" style="display:none"></textarea>
-                                                <div class="continue-button">
-												    <input type="submit" value="Inscription" />
-											     </div>
-											</form>
-											
-										</div>
-										<div class="clearfix"> </div>
-									</div>	
-                                    <!--//pop-up-box -->
-									<div id="small-dialog3" class="mfp-hide">
-										<h3>Partager une Photo</h3> 
-										<div class="social-sits">
-											<div class="uploadForm">
-												<form method="post" action="#">
-                                                    <textarea class="statut" rows="10" placeholder="Décrivez votre Kebab..."></textarea>
-                                                    <input type="submit" value="Envoyer" />
-                                                </form>
-											</div>
-										</div>
-										<div class="signup">
-											<div class="upload-right">
-                                                <div class="upload-file">
-                                                    <div class="services-icon">
-                                                        <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
-                                                    </div>
-                                                    <input type="file" value="Choose file..">
-                                                </div>
-                                                <div class="upload-info">
-                                                    <h5>Sélectionner une Photo</h5>
-                                                    <span>ou</span>
-                                                    <p>Glisser/Déposer une Photo</p>
-                                                </div>
-                                            </div>
-                                        </div>
-										<div class="clearfix"> </div>
-									</div>	
-									<script>
-											$(document).ready(function() {
-											$('.popup-with-zoom-anim').magnificPopup({
-												type: 'inline',
-												fixedContentPos: false,
-												fixedBgPos: true,
-												overflowY: 'auto',
-												closeBtnInside: true,
-												preloader: false,
-												midClick: true,
-												removalDelay: 300,
-												mainClass: 'my-mfp-zoom-in'
-											});
-																											
-											});
-									</script>	
+					<a href="#dialog-register" class="play-icon popup-with-zoom-anim">Inscription</a>
+				
+                    <div id="dialog-register" class="mfp-hide small-dialog">
+                        <h3>Créer un Compte</h3> 
+                        <div class="social-sits">
+                            <div>
+                                <p>En vous inscrivant, vous aurez accès aux photos postés par vos amis. Vous pourrez commenter ou aimer une publication.</p>
+
+                            </div>
+                            <div class="button-bottom">
+                                <p>Tu as déjà un compte ? <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Connexion</a></p>
+                            </div>
+                        </div>
+                        <div class="signup">
+                            <form method="post" action="/register">
+                                <input type="text" name="email" class="email" placeholder="Adresse mail" title="Adresse mail" />
+                                <input type="text" name="firstName" class="email" placeholder="Prénom" title="Prénom" />
+                                <input type="text" name="lastName" class="email" placeholder="Nom" title="Nom" />
+                                <input type="password" name="password" class="password" placeholder="Mot de passe" title="Mot de passe" required="required" pattern=".{6,}" title="Minimum 6 characters required" />
+                                <input type="password" name="passwordVerification" class="password" placeholder="Mot de passe (vérification)" title="Mot de passe (vérification)" required="required" pattern=".{6,}" title="Minimum 6 characters required" />
+                                <textarea name="description" class="email" style="display:none"></textarea>
+                                <div class="continue-button">
+                                    <input type="submit" value="Inscription" />
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>	
+                
 				 </div>
 				<div class="signin">
-					<a href="#small-dialog" class="play-icon popup-with-zoom-anim">Connexion</a>
-					<div id="small-dialog" class="mfp-hide">
+					<a href="#dialog-signin" class="play-icon popup-with-zoom-anim">Connexion</a>
+					<div id="dialog-signin" class="mfp-hide small-dialog">
 						<h3>Login</h3>
 						<div class="social-sits">
 							<div>
-                                <p>Connectez-vous pour retrouver vos amis, vos partages :).</p>
+                                <p>Connectez-vous pour retrouver vos amis, vos partages, etc.</p>
 							</div>
 							<div class="button-bottom">
 								<p>Pas de compte ? <a href="#small-dialog2" class="play-icon popup-with-zoom-anim">S'inscrire</a></p>
@@ -124,6 +137,7 @@
 						<div class="clearfix"> </div>
 					</div>
 				</div>
+                 {% endif %}
 				<div class="clearfix"> </div>
 			</div>
         </div>
