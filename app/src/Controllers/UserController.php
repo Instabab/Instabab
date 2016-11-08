@@ -107,6 +107,6 @@ final class UserController
          $this->logger->info("Start to logout an user");
          Sentinel::logout();
          
-         return $this->view->render($response, 'homepage.twig', array('connected' => false));
+         return $this->view->render($response, 'homepage.twig', array('connected' => false, 'message' => 'Vous n\'êtes plus connecté.'));
      }
 }
