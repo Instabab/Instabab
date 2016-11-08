@@ -23,14 +23,7 @@ final class HomeController
     public function displayHomepage(Request $request, Response $response, $args)
     {
         $this->logger->info("Home page action dispatched");
-        
-        if($user = Sentinel::forceCheck()){
-            $this->view->render($response, 'homepage.twig', array('connected' => true,
-                                                                  'user' => $user));
-        }
-        else {
-            $this->view->render($response, 'homepage.twig', array('connected' => false));
-        }
+        $this->view->render($response, 'homepage.twig', array('user' => Sentinel::check()));
 		
         return $response;
     }

@@ -9,11 +9,9 @@
     <div class="drop-navigation drop-navigation">
         <ul class="nav nav-sidebar">
             <li class="active"><a href="/" class="home-icon"><span class="glyphicon glyphicon-list"></span> Fil d'Actualités</a></li>
-            {% if connected %}
                 <li><a href="#" class="user-icon"><span class="glyphicon glyphicon-star"></span> {{user.first_name}} {{user.last_name}} </a></li>
                 <li><a href="#" class="menu1"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
                 <li><a href="#" class="sub-icon"><span class="glyphicon glyphicon-wrench"></span> Paramètres</a></li>
-            {% endif %}
         </ul>
         <!-- script-for-menu -->
         <script>

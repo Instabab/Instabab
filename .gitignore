@@ -3,3 +3,4 @@ storage/cache/
 storage/log/
 config/database.php
 .DS_STORE
+.idea
