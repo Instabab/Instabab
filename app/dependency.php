@@ -91,6 +91,14 @@ $container['App\Controllers\UserController'] = function ($c) {
 		$c->get('App\Repositories\UserRepository')
     );
 };
+
+$container['App\Controllers\ProfileController'] = function ($c) {
+    return new App\Controllers\ProfileController(
+		$c->get('view'), 
+		$c->get('logger'),
+		$c->get('App\Repositories\HomeRepository')
+    );
+};
 # -----------------------------------------------------------------------------
 # Factories Models
 # -----------------------------------------------------------------------------

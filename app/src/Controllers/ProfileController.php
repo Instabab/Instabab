@@ -28,6 +28,18 @@ final class ProfileController
      * args - {id: user's id}
      */
     public function displayProfile(Request $request, Response $response, $args) {
-
+        $this->logger->info('Start to display profile with id: '.$args['id']);
+        $user = User::find($args['id']); //Look for the user in DB
+        
+        if($user != null) {
+            //Profile found
+            $this->logger->info('Profile '.$user->id.' found: display profile');
+            $this->view->render($response, 'profile.twig', array());    
+        } else {
+            //Profile not found
+            $this->logger->info('Error: profile '.$args['id'].' not found');
+            $this->view->render($response, 'displayMessage.twig', array('success' => false, 
+                                                                        'message' => 'L\'utilisateur recherché n\'existe pas/plus.'));
+        }
     }
 }
