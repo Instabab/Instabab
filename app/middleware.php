@@ -20,7 +20,7 @@ function checkAuthentication($request, $response, $next) {
     } else {
         return $response->withRedirect('/need/authentication');
     }
-};
+}
 
 /**
  * Function which check if the user is logged 
@@ -30,8 +30,6 @@ function checkNoAuthentication($request, $response, $next) {
     if(!Sentinel::forceCheck()) {
         return $next($request, $response);    
     } else { 
-        return $response->withRedirect('need/logout');  
-    }
-    
-    return $next($request, $response); 
-}; 
+        return $response->withRedirect('/need/logout');  
+    } 
+} 
