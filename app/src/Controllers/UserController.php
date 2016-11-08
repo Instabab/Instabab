@@ -45,27 +45,27 @@ final class UserController
                     if(!empty($userForm['first_name']) && !empty($userForm['last_name'])) {
                         //Successful verifications
                         Sentinel::register($userForm);
-                        return $this->view->render($response, 'register.twig', array(   'success' => true, 
-                                                                                        'message' => 'Bravo '.$userForm['first_name'].' ! Vous avez bien été enregistré.'));
+                        return $this->view->render($response, 'displayMessage.twig', array( 'success' => true, 
+                                                                                            'message' => 'Bravo '.$userForm['first_name'].' ! Vous avez bien été enregistré.'));
                     } else {
                         $this->logger->info('Error: first_name and last_name can\'t be empty');
-                        return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                                        'message' => 'Vous devez remplir les champs "nom" et "prénom" pour valider votre inscription.'));
+                        return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                                            'message' => 'Vous devez remplir les champs "nom" et "prénom" pour valider votre inscription.'));
                     }
                 } else {
                     $this->logger->info('Error: there is already a user using the given email address');
-                    return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                                    'message' => 'Un utilisateur utilise déjà cette adresse e-mail.'));
+                    return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                                        'message' => 'Un utilisateur utilise déjà cette adresse e-mail.'));
                 }
             } else {
                 $this->logger->info('Error: the given email address wasn\'t valid');
-                return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                                'message' => 'L\'adresse e-mail que vous avez fournie n\'est pas valide.'));
+                return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                                    'message' => 'L\'adresse e-mail que vous avez fournie n\'est pas valide.'));
             }
         } else {
             $this->logger->info('Error: password and passwordRepeat didn\'t match');
-            return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                            'message' => 'Les deux mots de passe que vous avez entrez ne correspondent pas.'));
+            return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                                'message' => 'Les deux mots de passe que vous avez entrez ne correspondent pas.'));
         }
     }
     
@@ -85,11 +85,11 @@ final class UserController
             //Verification of connexion
              if($userInfo = Sentinel::forceAuthenticate($userForm)){
                  
-                return $this->view->render($response, 'login.twig', array(  'success' => true, 
-                                                                            'message' => 'Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.'));
+                return $this->view->render($response, 'displayMessage.twig', array( 'success' => true, 
+                                                                                    'message' => 'Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.'));
              } else {
-                 return $this->view->render($response, 'login.twig', array( 'success' => false, 
-                                                                            'message' => 'Mail ou mot de passe invalide !'));    
+                return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                                    'message' => 'Mail ou mot de passe invalide !'));    
              }
          }
          
@@ -99,15 +99,15 @@ final class UserController
      * Method which display an authentication error to the user (when he needs to be connected)
      */
     public function userNeedsToAuthenticate(Request $request, Response $response, $args) {
-        return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                        'message' => 'Vous devez être connecté pour accéder à cette page.'));
+        return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                            'message' => 'Vous devez être connecté pour accéder à cette page.'));
     }
     
     /**
      * Method which display an authentication error to the user (when he needs to be disconnected)
      */
     public function userNeedsToLogout(Request $request, Response $response, $args) {
-        return $this->view->render($response, 'register.twig', array(   'success' => false, 
-                                                                        'message' => 'Vous ne pouvez pas accéder à cette page en étant connecté.'));
+        return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                            'message' => 'Vous ne pouvez pas accéder à cette page en étant connecté.'));
     }
 }
