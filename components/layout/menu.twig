@@ -11,7 +11,7 @@
             <li class="active"><a href="/" class="home-icon"><span class="glyphicon glyphicon-list"></span> Fil d'Actualités</a></li>
                 <li><a href="/profile/{{user.id}}" class="user-icon"><span class="glyphicon glyphicon-star"></span> {{user.first_name}} {{user.last_name}} </a></li>
                 <li><a href="#" class="menu1"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
-                <li><a href="#" class="sub-icon"><span class="glyphicon glyphicon-wrench"></span> Paramètres</a></li>
+                <li><a href="#dialog-account-settings" class="sub-icon play-icon popup-with-zoom-anim"><span class="glyphicon glyphicon-wrench"></span> Paramètres</a></li>
         </ul>
         <!-- script-for-menu -->
         <script>
@@ -21,5 +21,29 @@
                 });
             });
         </script>
+        
+        <div id="dialog-account-settings" class="mfp-hide small-dialog">
+                        <h3>Modifier les paramètres de votre compte</h3> 
+                        <div class="social-sits">
+                            <div>
+                                <p>Vous pouvez modifier toutes les informations propres à votre compte dans cette fenêtre.</p><p>Laissez vides les champs pour lesquels vous ne souhaitez pas modifier vos données.</p>
+                            </div>
+                        </div>
+                        <div class="signup">
+                            <form method="post" action="/profile/settings/{{user.id}}">
+                                <input type="text" name="email" class="email" placeholder="Adresse mail" title="Adresse mail" value="{{user.email}}" />
+                                <input type="text" name="firstName" class="email" placeholder="Prénom" title="Prénom" value="{{user.first_name}}" />
+                                <input type="text" name="lastName" class="email" placeholder="Nom" title="Nom" value="{{user.last_name}}" />
+                                <input type="password" name="password" class="password" placeholder="Mot de passe" title="Mot de passe" title="Minimum 6 characters required" />
+                                <input type="password" name="passwordVerification" class="password" placeholder="Mot de passe (vérification)" title="Mot de passe (vérification)" title="Minimum 6 characters required" />
+                                <textarea name="description" class="email" placeholder="Description du profil..." rows="7" style="width: 94%; font-size: 14px;">{{user.description}}</textarea>
+                                <div class="continue-button">
+                                    <input type="submit" value="Modifier mon Profil" />
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
     </div>
 </div>

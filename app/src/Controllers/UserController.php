@@ -66,7 +66,66 @@ final class UserController
         } else {
             $this->logger->info('Error: password and passwordRepeat didn\'t match');
             return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
-                                                                                'message' => 'Les deux mots de passe que vous avez entrez ne correspondent pas.'));
+                                                                                'message' => 'Les deux mots de passe que vous avez entré ne correspondent pas.'));
+        }
+    }
+    
+    /**
+     * Method which update user's profile
+     */
+    public function updateProfile(Request $request, Response $response, $args) {
+        $this->logger->info('Start to update user profile');
+        $user = Sentinel::check();
+        
+        $data = $request->getParsedBody();
+        $userForm = array();
+        $userForm['email'] = filter_var($data['email'], FILTER_SANITIZE_STRING);
+        $userForm['password'] = filter_var($data['password'], FILTER_SANITIZE_STRING);
+        $userForm['passwordRepeat'] = filter_var($data['passwordVerification'], FILTER_SANITIZE_STRING);
+        $userForm['first_name'] = filter_var($data['firstName'], FILTER_SANITIZE_STRING);
+        $userForm['last_name'] = filter_var($data['lastName'], FILTER_SANITIZE_STRING);
+        $userForm['description'] = nl2br(filter_var($data['description'], FILTER_SANITIZE_STRING));
+  
+        if($user->id == $args['id']) {
+            //This is the right user
+            if(empty($userForm['password']) || ($userForm['password'] == $userForm['passwordRepeat'])) {
+                if(!empty($userForm['email']) && filter_var($userForm['email'], FILTER_VALIDATE_EMAIL, FILTER_FLAG_PATH_REQUIRED)) {
+                        //Successful verifications
+                    
+                        $userDataToUpdate = array();
+                        
+                        if(!empty($userForm['email']))
+                            $userDataToUpdate['email'] = $userForm['email'];
+                    
+                        if(!empty($userForm['password']))
+                            $userDataToUpdate['password'] = $userForm['password'];
+                    
+                        if(!empty($userForm['first_name']))
+                            $userDataToUpdate['first_name'] = $userForm['first_name'];
+                    
+                        if(!empty($userForm['last_name']))
+                            $userDataToUpdate['last_name'] = $userForm['last_name'];
+                    
+                        if(!empty($userForm['description']))
+                            $user->description = $userForm['description'];
+                    
+                        Sentinel::update($user, $userDataToUpdate);
+                        $user->save();
+                        
+                        return $this->view->render($response, 'displayMessage.twig', array( 'success' => true,
+                                                                                            'message' => 'Votre profil a bien été mis à jour.'));
+                } else {
+                    $this->logger->info('Error: the given email address wasn\'t valid');
+                    return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                                        'message' => 'L\'adresse e-mail que vous avez fournie n\'est pas valide.'));
+                }
+            } else {
+                $this->logger->info('Error: password and passwordRepeat didn\'t match');
+                return $this->view->render($response, 'displayMessage.twig', array( 'success' => false, 
+                                                                                    'message' => 'Les deux mots de passe que vous avez entré ne correspondent pas.'));
+            }
+        } else {
+            //This isn't the right user
         }
     }
     
