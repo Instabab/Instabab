@@ -84,7 +84,7 @@ final class UserController
          
          if(filter_var($userForm['email'], FILTER_VALIDATE_EMAIL, FILTER_FLAG_PATH_REQUIRED) && !empty($userForm['password'])) {
             //Verification of connexion
-             if($userInfo = Sentinel::authenticate($userForm)){
+             if($userInfo = Sentinel::forceAuthenticate($userForm)){
                  
                 return $this->view->render($response, 'displayMessage.twig', array(  'success' => true,
                                                                             'message' => 'Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.',
@@ -95,7 +95,7 @@ final class UserController
                                                                                     'message' => 'Mail ou mot de passe invalide !'));    
              }
          } else {
-              return $this->view->render($response, 'login.twig', array(   'success' => false, 
+              return $this->view->render($response, 'displayMessage.twig', array(   'success' => false,
                                                                                         'message' => 'Mail invalide !'));    
          }
          
