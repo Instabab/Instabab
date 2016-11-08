@@ -7,7 +7,20 @@
         <ul>
             <li><p class="author"><a href="/profile/{{post.user.id}}" class="author">{{post.user.first_name}} {{post.user.last_name}}</a></p></li>
             <li><p class="place">Publié à <a href="">{{post.place.name}}</a></p></li>
-            <li><p class="likes"><span class="glyphicon glyphicon-heart"></span> {{post.notes.count}} J'aime - <a>J'aime</a></p></li>
+            <li><p class="likes">
+                {% set like = 0 %}
+                {% set dislike = 0 %}
+                {% for i in 0 .. post.notes.count-1 %}
+                    {% if post.notes[i].value == 1 %}
+                        {% set like = like + 1%}
+                    {% else %}
+                        {% set dislike = dislike + 1 %}
+                    {% endif %}
+                {% endfor %}
+                <span class="glyphicon glyphicon-thumbs-up"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down"></span> {{dislike}} Je n'aime pas
+            </p></li>
         </ul>
+        <hr>
+        <p><a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
     </div>
 </div>

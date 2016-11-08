@@ -627,6 +627,13 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
     font-size: 11px;
     margin: 1em 0 0 0;
 }
+.resent-grid-info a{
+    color: #21DEEF;
+    text-decoration: none;
+}
+.resent-grid-info p.author a.author:hover{
+    text-decoration: none;
+}
 .resent-grid-info ul{
 	padding:0;
 	margin:0;
@@ -2786,4 +2793,15 @@ background: url(../images/social.png) no-repeat 0px 0px;
 
 .profile-description {
     margin-bottom: 10px;
+}
+
+.statusButton {
+    background-color: #21DEEF;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+a.statusButton {
+    color: white;
+    font-size: 12px;
 }
