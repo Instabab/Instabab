@@ -34,7 +34,7 @@ final class ProfileController
         if($user != null) {
             //Profile found
             $this->logger->info('Profile '.$user->id.' found: display profile');
-            $this->view->render($response, 'profile.twig', array());    
+            $this->view->render($response, 'profile.twig', array('user' => $user));    
         } else {
             //Profile not found
             $this->logger->info('Error: profile '.$args['id'].' not found');

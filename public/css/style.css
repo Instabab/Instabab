@@ -2773,3 +2773,17 @@ background: url(../images/social.png) no-repeat 0px 0px;
     color: #817F7F;
     border: solid 1px #817F7F;
 }
+
+.profile-description img {
+    display: inline-block; 
+    margin-right: 10px;
+    height: 150px;
+}
+
+.profile-description h3 {
+    margin-bottom: -20px;
+}
+
+.profile-description {
+    margin-bottom: 10px;
+}
