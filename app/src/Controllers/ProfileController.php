@@ -33,8 +33,8 @@ final class ProfileController
         
         if($profile != null) {
             //Profile found
-            $this->logger->info('Profile '.$user->id.' found: display profile');
-            $this->view->render($response, 'profile.twig', array('profile' => $profile, 'user' => Sentinel::forceCheck()));    
+            $this->logger->info('Profile '.$profile->id.' found: display profile');
+            $this->view->render($response, 'profile.twig', array('profile' => $profile, 'posts' => $profile->photos()->with('user', 'place', 'notes')->get(), 'user' => Sentinel::forceCheck()));    
         } else {
             //Profile not found
             $this->logger->info('Error: profile '.$args['id'].' not found');

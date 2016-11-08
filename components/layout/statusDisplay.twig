@@ -1,0 +1,13 @@
+<div class="col-md-4 resent-grid recommended-grid slider-top-grids">
+    <div class="resent-grid-img recommended-grid-img">
+        <a href="single.html"><img src="{{post.photo}}" alt="Kebab picture" /></a>
+    </div>
+    <div class="resent-grid-info recommended-grid-info">
+        <h3><a href="single.html" class="title title-info">{{post.message}}</a></h3>
+        <ul>
+            <li><p class="author"><a href="/profile/{{post.user.id}}" class="author">{{post.user.first_name}} {{post.user.last_name}}</a></p></li>
+            <li><p class="place">Publié à <a href="">{{post.place.name}}</a></p></li>
+            <li><p class="likes"><span class="glyphicon glyphicon-heart"></span> {{post.notes.count}} J'aime - <a>J'aime</a></p></li>
+        </ul>
+    </div>
+</div>
