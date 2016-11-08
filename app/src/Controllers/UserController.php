@@ -85,13 +85,29 @@ final class UserController
             //Verification of connexion
              if($userInfo = Sentinel::forceAuthenticate($userForm)){
                  
-                return $this->view->render($response, 'login.twig', array(   'success' => true, 
-                                                                                        'message' => 'Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.'));
+                return $this->view->render($response, 'login.twig', array(  'success' => true, 
+                                                                            'message' => 'Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.'));
              } else {
-                 return $this->view->render($response, 'login.twig', array(   'success' => false, 
-                                                                                        'message' => 'Mail ou mot de passe invalide !'));    
+                 return $this->view->render($response, 'login.twig', array( 'success' => false, 
+                                                                            'message' => 'Mail ou mot de passe invalide !'));    
              }
          }
          
      }
+    
+    /**
+     * Method which display an authentication error to the user (when he needs to be connected)
+     */
+    public function userNeedsToAuthenticate(Request $request, Response $response, $args) {
+        return $this->view->render($response, 'register.twig', array(   'success' => false, 
+                                                                        'message' => 'Vous devez être connecté pour accéder à cette page.'));
+    }
+    
+    /**
+     * Method which display an authentication error to the user (when he needs to be disconnected)
+     */
+    public function userNeedsToLogout(Request $request, Response $response, $args) {
+        return $this->view->render($response, 'register.twig', array(   'success' => false, 
+                                                                        'message' => 'Vous ne pouvez pas accéder à cette page en étant connecté.'));
+    }
 }
