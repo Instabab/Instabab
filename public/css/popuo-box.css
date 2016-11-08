@@ -1,5 +1,5 @@
 /* Styles for dialog window */
-#small-dialog,#small-dialog2,#small-dialog3,#small-dialog4,#small-dialog5,#small-dialog6,#small-dialog7,#small-dialog8{
+#small-dialog,#small-dialog2,#small-dialog3,#small-dialog4,#small-dialog5,#small-dialog6,#small-dialog7,#small-dialog8, .small-dialog{
 	background: #FFF;
     padding: 20px;
     text-align: left;
@@ -511,7 +511,7 @@ button::-moz-focus-inner {
   color: #817F7F;
   border: solid 1px #817F7F;
 }
-.login input[type="submit"],.signup input[type="submit"],.uploadForm input[type="submit"]{
+.login input[type="submit"],.signup input[type="submit"],.uploadForm input[type="submit"], .logout input[type="submit"]{
     border: 0px;
     padding: .5em 2em;
     background: #21DEEF;

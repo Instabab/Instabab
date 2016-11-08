@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
 
 final class HomeController
 {
@@ -22,8 +23,14 @@ final class HomeController
     public function displayHomepage(Request $request, Response $response, $args)
     {
         $this->logger->info("Home page action dispatched");
-		
-        $this->view->render($response, 'homepage.twig');
+        
+        if($user = Sentinel::forceCheck()){
+            $this->view->render($response, 'homepage.twig', array('connected' => true,
+                                                                  'user' => $user));
+        }
+        else {
+            $this->view->render($response, 'homepage.twig', array('connected' => false));
+        }
 		
         return $response;
     }
