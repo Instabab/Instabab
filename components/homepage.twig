@@ -6,5 +6,17 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> {{ message }} 
     </div>
 {% endif %}
-{% include 'layout/actuLine.twig' %}
+
+<div class="main-grids">
+    <div class="top-grids">
+        <div class="recommended-info">
+            <h3>Nos membres ont partagé...</h3>
+        </div>
+        {% for post in posts %} 
+            {% include 'layout/statusDisplay.twig' %}
+        {% endfor %}
+        <div class="clearfix"> </div>
+    </div>
+</div>
+
 {% endblock %}
