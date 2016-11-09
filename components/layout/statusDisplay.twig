@@ -20,8 +20,10 @@
                 <span class="glyphicon glyphicon-thumbs-up"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down"></span> {{dislike}} Je n'aime pas
             </p></li>
         </ul>
-        <hr>
-        <p><a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
+        {% if user %}
+            <hr>
+            <p><a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
+        {% endif %}
     </div>
 </div>
 
