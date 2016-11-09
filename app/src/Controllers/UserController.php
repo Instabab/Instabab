@@ -139,6 +139,7 @@ final class UserController
                         $datas = array( 
                             'success' => true,
                             'message' => 'Votre profil a bien été mis à jour.',
+                            'user' => Sentinel::forceCheck(),
                             'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
                     
                         return $this->view->render($response, 'displayMessage.twig', $datas);
@@ -148,6 +149,7 @@ final class UserController
                     $datas = array( 
                         'success' => false, 
                         'message' => 'L\'adresse e-mail que vous avez fournie n\'est pas valide.',
+                        'user' => Sentinel::forceCheck(),
                         'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
                     
                     return $this->view->render($response, 'displayMessage.twig', $datas);
@@ -157,7 +159,8 @@ final class UserController
                 
                 $datas = array( 
                     'success' => false, 
-                    'message' => 'Les deux mots de passe que vous avez entré ne correspondent pas.', 
+                    'message' => 'Les deux mots de passe que vous avez entré ne correspondent pas.',
+                    'user' => Sentinel::forceCheck(),
                     'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
                 
                 return $this->view->render($response, 'displayMessage.twig', $datas);
@@ -218,7 +221,8 @@ final class UserController
          
          $datas = array(
              'success'=>true, 
-             'connected' => false, 'message' => 'Vous n\'êtes plus connecté.', 
+             'connected' => false, 
+             'message' => 'Vous n\'êtes plus connecté.', 
              'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
          
          return $this->view->render($response, 'displayMessage.twig', $datas);
@@ -241,7 +245,8 @@ final class UserController
     public function userNeedsToLogout(Request $request, Response $response, $args) {
         $datas = array( 
             'success' => false,                                                               
-            'message' => 'Vous ne pouvez pas accéder à cette page en étant connecté.', 
+            'message' => 'Vous ne pouvez pas accéder à cette page en étant connecté.',
+            'user' => Sentinel::forceCheck(),
             'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
         
         return $this->view->render($response, 'displayMessage.twig', $datas);
