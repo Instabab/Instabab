@@ -13,7 +13,7 @@
                 {% for i in 0 .. post.notes.count-1 %}
                     {% if post.notes[i].value == 1 %}
                         {% set like = like + 1%}
-                    {% else %}
+                    {% elseif post.notes[i].value == -1 %}
                         {% set dislike = dislike + 1 %}
                     {% endif %}
                 {% endfor %}
