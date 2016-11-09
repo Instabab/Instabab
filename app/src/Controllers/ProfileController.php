@@ -39,7 +39,8 @@ final class ProfileController
             //Preparation of datas to send to the twig
             $datas = array(
                 'profile' => $profile, 
-                'posts' => $profile->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id'), 
+                'posts' => $profile->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id'),
+                'menuActive' => 2,
                 'user' => Sentinel::forceCheck());
             
             $this->view->render($response, 'profile.twig', $datas);    
