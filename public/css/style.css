@@ -931,6 +931,8 @@ select.form-control.bfh-countries:hover {
 	background: #f7f7f7;
     padding: 3em 0 0 3em;
 }
+
+
 .show-right-grids {
   margin-bottom: 1.5em;
 }
@@ -2787,6 +2789,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
     border: solid 1px #817F7F;
 }
 
+
 .profile-description img {
     width: 150px;
 }
@@ -2812,4 +2815,19 @@ a.statusButton {
 
 .dontDisplay {
     display:none;
+
+
+img#picturePreview{
+    height:100%;
+    position : relative;
+    bottom:14px;
+    text-align: center;
+    background-color : #FFFFFF;
+    background: #FFFFFF;
+}
+
+input#pictureInput{
+    position : absolute;
+    top: 0px;
+    left: 0px;
 }

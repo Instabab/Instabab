@@ -94,9 +94,17 @@ $container['App\Controllers\UserController'] = function ($c) {
 
 $container['App\Controllers\ProfileController'] = function ($c) {
     return new App\Controllers\ProfileController(
-		$c->get('view'), 
-		$c->get('logger'),
-		$c->get('App\Repositories\HomeRepository')
+        $c->get('view'),
+        $c->get('logger'),
+        $c->get('App\Repositories\HomeRepository')
+    );
+};
+
+$container['App\Controllers\PictureController'] = function ($c) {
+    return new App\Controllers\PictureController(
+        $c->get('view'),
+        $c->get('logger'),
+        $c->get('App\Repositories\HomeRepository')
     );
 };
 # -----------------------------------------------------------------------------
