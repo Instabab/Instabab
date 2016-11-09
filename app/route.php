@@ -9,6 +9,7 @@ $app->get('/', 'App\Controllers\HomeController:displayHomepage')->setName('homep
 
 //Routes restricted to connected users
 $app->post('/logout', 'App\Controllers\UserController:logout')->setName('logout')->add('checkAuthentication');
+$app->post('/addPicture', 'App\Controllers\PictureController:addPicture')->setName('addPicture')->add('checkAuthentication');
 $app->get('/profile/{id}', 'App\Controllers\ProfileController:displayProfile')->setName('displayProfile')->add('checkAuthentication');
 
 //Routes where the user has to be disconnected
