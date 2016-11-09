@@ -39,7 +39,7 @@ class PictureController
         $extension_upload = strtolower(  substr(  strrchr($_FILES['pictureInput']['name'], '.')  ,1)  );
         $path = "images/pictures/$name.$extension_upload";
         $success = move_uploaded_file($_FILES['pictureInput']['tmp_name'],$path);
-        if (!$success)  return $this->view->render($response, 'displayMessage.twig', array('success' => false, 'message' => 'Erreur lors du transfert de la photo.'));
+        if (!$success)  return $this->view->render($response, 'displayMessage.twig', array('success' => false, 'message' => 'Erreur lors du déplacement de la photo.'));
 
         $data = $request->getParsedBody();
 
@@ -49,7 +49,7 @@ class PictureController
 
         $picture = new Photo();
         $picture->message = $desc;
-        $picture->photo = $path;
+        $picture->photo = '/'.$path;
         $picture->id_place = 3;
         $picture->id_user = $userId;
         $picture->save();
