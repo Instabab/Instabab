@@ -2805,3 +2805,11 @@ a.statusButton {
     color: white;
     font-size: 12px;
 }
+
+.place a {
+    cursor:pointer;
+}
+
+.dontDisplay {
+    display:none;
+}
