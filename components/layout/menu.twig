@@ -8,10 +8,12 @@
     </div>
     <div class="drop-navigation drop-navigation">
         <ul class="nav nav-sidebar">
-            <li class="active"><a href="/" class="home-icon"><span class="glyphicon glyphicon-list"></span> Fil d'Actualités</a></li>
-                <li><a href="/profile/{{user.id}}" class="user-icon"><span class="glyphicon glyphicon-star"></span> {{user.first_name}} {{user.last_name}} </a></li>
-                <li><a href="#" class="menu1"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
-                <li><a href="#dialog-account-settings" class="sub-icon play-icon popup-with-zoom-anim"><span class="glyphicon glyphicon-wrench"></span> Paramètres</a></li>
+            <li {%if menuActive == 1 or menuActive == false %}class="active"{% endif %}><a href="/" class="home-icon"><span class="glyphicon glyphicon-list"></span> Fil d'Actualités</a></li>
+            <li {%if menuActive == 2 %}class="active"{% endif %}><a href="/profile/{{user.id}}" class="user-icon"><span class="glyphicon glyphicon-star"></span> {{user.first_name}} {{user.last_name}} </a></li>
+            <li {%if menuActive == 3 %}class="active"{% endif %}><a href="#" class="menu1"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
+            <li {%if menuActive == 4 %}class="active"{% endif %}><a href="#" class="menu1"><span class="glyphicon glyphicon-globe"></span> Lieux</a></li>
+            <li {%if menuActive == 5 %}class="active"{% endif %}><a href="#" class="menu1"><span class="glyphicon glyphicon-paperclip"></span> Tags</a></li>
+            <li {%if menuActive == 6 %}class="active"{% endif %}><a href="#dialog-account-settings" class="sub-icon play-icon popup-with-zoom-anim"><span class="glyphicon glyphicon-wrench"></span> Modifier mon Profil</a></li>
         </ul>
         <!-- script-for-menu -->
         <script>

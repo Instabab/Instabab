@@ -36,10 +36,16 @@ final class ProfileController
             //Profile found
             $this->logger->info('Profile '.$profile->id.' found: display profile');
             
+            if(Sentinel::check()->id == $args['id'])
+                $menuActive = 2;
+            else
+                $menuActive = 1;
+            
             //Preparation of datas to send to the twig
             $datas = array(
                 'profile' => $profile, 
-                'posts' => $profile->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id'), 
+                'posts' => $profile->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id'),
+                'menuActive' => $menuActive,
                 'user' => Sentinel::forceCheck());
             
             $this->view->render($response, 'profile.twig', $datas);    
