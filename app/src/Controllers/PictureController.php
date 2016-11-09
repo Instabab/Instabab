@@ -68,7 +68,8 @@ class PictureController
             $tagsPhotos->save();
         }
 
-        return $this->view->render($response, 'displayMessage.twig', array('success' => true, 'message' => 'Photo publiée'));
+        return $this->view->render($response, 'displayMessage.twig', array('success' => true, 'message' => 'Photo publiée'
+                                                                            , 'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15)));
 
     }
 
