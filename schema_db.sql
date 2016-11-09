@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost:8889
--- Généré le :  Dim 06 Novembre 2016 à 16:30
+-- Généré le :  Mer 09 Novembre 2016 à 00:54
 -- Version du serveur :  5.5.42
 -- Version de PHP :  7.0.8
 
@@ -28,7 +28,7 @@ CREATE TABLE `activations` (
   `completed_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `activations`
@@ -37,7 +37,8 @@ CREATE TABLE `activations` (
 INSERT INTO `activations` (`id`, `user_id`, `code`, `completed`, `completed_at`, `created_at`, `updated_at`) VALUES
 (1, 1, 'DFqOQaenC5pwvS3OC0FNnY8x9DpugJIX', 1, '2016-10-12 07:21:56', '2016-10-12 07:21:56', '2016-10-12 07:21:56'),
 (2, 5, 'hNDa2gZrjSO3X4IPeLBOTBNsuAYgrclY', 1, '2016-10-19 08:59:51', '2016-10-19 08:59:51', '2016-10-19 08:59:51'),
-(3, 6, 'av7L4kipJfV4j41OTRn5xLjwgvJcFkr8', 1, '2016-10-19 09:00:57', '2016-10-19 09:00:57', '2016-10-19 09:00:57');
+(3, 6, 'av7L4kipJfV4j41OTRn5xLjwgvJcFkr8', 1, '2016-10-19 09:00:57', '2016-10-19 09:00:57', '2016-10-19 09:00:57'),
+(4, 9, 'gfMyxptQKMV7KquMRAeXeMPXlkdFi6pV', 1, '2016-11-08 14:54:00', '2016-11-08 14:54:00', '2016-11-08 14:54:00');
 
 -- --------------------------------------------------------
 
@@ -50,7 +51,17 @@ CREATE TABLE `notes` (
   `value` smallint(6) NOT NULL,
   `id_photo` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `notes`
+--
+
+INSERT INTO `notes` (`id`, `value`, `id_photo`, `id_user`) VALUES
+(1, 1, 1, 9),
+(2, -1, 1, 9),
+(3, 1, 2, 9),
+(4, 1, 2, 9);
 
 -- --------------------------------------------------------
 
@@ -64,7 +75,7 @@ CREATE TABLE `persistences` (
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `persistences`
@@ -76,7 +87,15 @@ INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`)
 (3, 7, 'vgoRZMpsqnmU5sSUDtgwXCTpsbihxwM8', '2016-10-19 09:06:53', '2016-10-19 09:06:53'),
 (4, 7, 'DB6w7xs4kc2sisBNqclfOhPxhizUlPB0', '2016-10-19 09:15:52', '2016-10-19 09:15:52'),
 (5, 7, 'ioiiOs0fNb3amIG8WoOQRREJUGY8pRDP', '2016-10-19 09:16:27', '2016-10-19 09:16:27'),
-(6, 7, 'AeFcQYoBiy2UG9kI39VUI6FNDZiGIZCL', '2016-10-19 09:16:44', '2016-10-19 09:16:44');
+(6, 7, 'AeFcQYoBiy2UG9kI39VUI6FNDZiGIZCL', '2016-10-19 09:16:44', '2016-10-19 09:16:44'),
+(7, 8, 'jG4lxndB2Vkspm1N40S2ekwjWbALmqgY', '2016-11-08 10:54:19', '2016-11-08 10:54:19'),
+(8, 8, '0mTfXJJn9BP5fKJyTBgwhaH7tNP2GENc', '2016-11-08 13:02:04', '2016-11-08 13:02:04'),
+(9, 8, '3yrnvhgGfrXjJP1VJuopUtSuCaAsbCKe', '2016-11-08 13:12:25', '2016-11-08 13:12:25'),
+(10, 8, 'BUUuJCaawln9MU6UlnRbS24XAF1DjV8i', '2016-11-08 13:35:19', '2016-11-08 13:35:19'),
+(11, 8, 'rW300GYDsiVMO9NGPAOKzMRromXQO9I7', '2016-11-08 14:25:18', '2016-11-08 14:25:18'),
+(13, 9, 'iZscc9ZVjrVFaFqAx72dg51YtECbYSoK', '2016-11-08 14:55:56', '2016-11-08 14:55:56'),
+(14, 9, 'WED1aKtWRMG2PGpnpe7Vi6Ih844xiX38', '2016-11-08 16:41:53', '2016-11-08 16:41:53'),
+(16, 9, 'XD5BOU3Ch2M04BX8VTR6GlY8OTRv028I', '2016-11-08 23:02:49', '2016-11-08 23:02:49');
 
 -- --------------------------------------------------------
 
@@ -88,9 +107,18 @@ CREATE TABLE `photo` (
   `id` int(11) NOT NULL,
   `message` text NOT NULL,
   `photo` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_place` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `photo`
+--
+
+INSERT INTO `photo` (`id`, `message`, `photo`, `date`, `id_place`, `id_user`) VALUES
+(1, 'J''adore les kebabs. :D', '/images/pictures/t1.jpg', '2016-11-07 23:00:00', 1, 9),
+(2, 'Celui là est excellent.', '/images/pictures/t2.jpg', '2016-11-07 23:00:00', 1, 9);
 
 -- --------------------------------------------------------
 
@@ -102,7 +130,14 @@ CREATE TABLE `place` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `place`
+--
+
+INSERT INTO `place` (`id`, `name`, `address`) VALUES
+(1, 'Au p''tit Kebab', '21 rue des Avignons');
 
 -- --------------------------------------------------------
 
@@ -217,7 +252,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `avatar` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `users`
@@ -225,7 +260,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `password`, `permissions`, `last_login`, `first_name`, `last_name`, `created_at`, `updated_at`, `avatar`, `description`) VALUES
 (1, 'admin@admin.com', '$2y$10$PmrQyzHJK21emFXs5aRhseLSVwfjrXIICYUUCUq91.g6iDQaWhyBy', '', NULL, 'Yudi', 'Purwanto', '2016-10-12 05:21:56', '2016-10-12 05:21:56', '', ''),
-(7, 'quentin.claudel@icloud.com', '$2y$10$wKIpJKVtL1nVidYiGBoH3ujJPOm8VQgjpwTiZKlmfVehbU3sQSzvS', '', '2016-10-19 09:16:44', 'Quentin', 'Claudel', '2016-10-19 09:05:48', '2016-10-19 09:16:44', '', '');
+(9, 'quentin.claudel@icloud.com', '$2y$10$n5mMynXsDXVbDof4RQTVvuYzgsqhPElUzsA1yHjVQAfvhnjMfG7tG', '', '2016-11-08 23:02:49', 'Quentin', 'Claudel', '2016-11-08 14:54:00', '2016-11-08 23:42:57', '/images/profiles/quentin.jpg', 'I have a dream of kebab. :)');
 
 --
 -- Index pour les tables exportées
@@ -318,27 +353,27 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `activations`
 --
 ALTER TABLE `activations`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `persistences`
 --
 ALTER TABLE `persistences`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT pour la table `photo`
 --
 ALTER TABLE `photo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `place`
 --
 ALTER TABLE `place`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `reminders`
 --
@@ -363,4 +398,4 @@ ALTER TABLE `throttle`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
