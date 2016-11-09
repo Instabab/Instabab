@@ -80,9 +80,15 @@ class PictureController
                 }
             }
         }
-        $posts = Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15);
-        return $this->view->render($response, 'displayMessage.twig', array('success' => $success, 'user' => $user, 'message' => $msg
-                                                                            ,'posts' => $posts));
+        
+        //Preparation of datas to send to the twig
+        $datas = array(
+            'success' => $success, 
+            'user' => $user, 
+            'message' => $msg,
+            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
+            
+        return $this->view->render($response, 'displayMessage.twig', $datas);
 
     }
 
