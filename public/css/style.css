@@ -2813,8 +2813,8 @@ a.statusButton {
 }
 
 .dontDisplay {
-    display:none;
-
+    display: none;
+}
 
 img#picturePreview{
     height:100%;

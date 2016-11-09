@@ -30,45 +30,65 @@ class PictureController
         $this->logger->info('Start to add picture');
 
         $user = Sentinel::check();
-        if(!$user)
-            return $this->view->render($response, 'displayMessage.twig', array('success' => false, 'message' => 'Il faut être connecté pour ajouter une photo'));
-        if ($_FILES['pictureInput']['error'] > 0)
-            return $this->view->render($response, 'displayMessage.twig', array('success' => false, 'message' => 'Erreur lors du transfert de la photo.'));
+        $success = true;
+        $msg = 'Photo publiée';
 
-        $name = md5($user['email'].time());
-        $extension_upload = strtolower(  substr(  strrchr($_FILES['pictureInput']['name'], '.')  ,1)  );
-        $path = "images/pictures/$name.$extension_upload";
-        $success = move_uploaded_file($_FILES['pictureInput']['tmp_name'],$path);
-        if (!$success)  return $this->view->render($response, 'displayMessage.twig', array('success' => false, 'message' => 'Erreur lors du déplacement de la photo.'));
 
-        $data = $request->getParsedBody();
+        if(!$user) {
+            $msg = 'Il faut être connecté pour ajouter une photo';
+            $success = false;
+        } else {
+            if ($_FILES['pictureInput']['error'] > 0) {
+                $msg = 'Erreur lors du transfert de la photo.';
+                $success = false;
+            } else {
 
-        $userId = $user['id'];
-        $desc = $data['descPicture'];
-        $tags = $this->searchTag($desc);
+                $name = md5($user['email'] . time());
+                $extension_upload = strtolower(substr(strrchr($_FILES['pictureInput']['name'], '.'), 1));
+                $path = "images/pictures/$name.$extension_upload";
+                $moveSuccess = move_uploaded_file($_FILES['pictureInput']['tmp_name'], $path);
+                if (!$moveSuccess) {
+                    $msg = 'Erreur lors du déplacement de la photo.';
+                    $success = false;
+                } else {
+                    $data = $request->getParsedBody();
 
-        $picture = new Photo();
-        $picture->message = $desc;
-        $picture->photo = '/'.$path;
-        $picture->id_place = 3;
-        $picture->id_user = $userId;
-        $picture->save();
-        $idPicture =  $picture->id;
+                    $userId = $user['id'];
+                    $desc = $data['descPicture'];
+                    $tags = $this->searchTag($desc);
 
-        foreach($tags as $t) {
-            $tag = Tags::where('name', $t)->first();
-            if(!$tag) {
-                $tag = new Tags();
-                $tag->name = $t;
-                $tag->save();
+                    $picture = new Photo();
+                    $picture->message = $desc;
+                    $picture->photo = '/' . $path;
+                    $picture->id_place = 3;
+                    $picture->id_user = $userId;
+                    $picture->save();
+                    $idPicture = $picture->id;
+
+                    foreach ($tags as $t) {
+                        $tag = Tags::where('name', $t)->first();
+                        if (!$tag) {
+                            $tag = new Tags();
+                            $tag->name = $t;
+                            $tag->save();
+                        }
+                        $tagsPhotos = new TagsPhotos();
+                        $tagsPhotos->id_photo = $idPicture;
+                        $tagsPhotos->id_tag = $tag->id;
+                        $tagsPhotos->save();
+                    }
+                }
             }
-            $tagsPhotos = new TagsPhotos();
-            $tagsPhotos->id_photo = $idPicture;
-            $tagsPhotos->id_tag = $tag->id;
-            $tagsPhotos->save();
         }
-
-        return $this->view->render($response, 'displayMessage.twig', array('success' => true, 'message' => 'Photo publiée'));
+        
+        //Preparation of datas to send to the twig
+        $datas = array(
+            'success' => $success, 
+            'user' => $user, 
+            'message' => $msg,
+            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
+            
+        return $this->view->render($response, 'displayMessage.twig', $datas);
 
     }
 
@@ -86,7 +106,8 @@ class PictureController
                 $tag = substr($desc, $pos, $pos2-$pos);
             else
                 $tag = substr($desc, $pos);
-            array_push($tags, $tag);
+            //the key is the value for delete eventualy double
+            $tags[$tag] = $tag;
         }
 
         return $tags;

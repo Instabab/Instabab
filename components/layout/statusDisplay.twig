@@ -1,4 +1,4 @@
-<div class="col-md-4 resent-grid recommended-grid slider-top-grids">
+<div class="col-xs-8 col-md-offset-2 resent-grid recommended-grid slider-top-grids">
     <div class="resent-grid-img recommended-grid-img">
         <a href="single.html"><img src="{{post.photo}}" alt="Kebab picture" /></a>
     </div>
@@ -13,7 +13,7 @@
                 {% for i in 0 .. post.notes.count-1 %}
                     {% if post.notes[i].value == 1 %}
                         {% set like = like + 1%}
-                    {% else %}
+                    {% elseif post.notes[i].value == -1 %}
                         {% set dislike = dislike + 1 %}
                     {% endif %}
                 {% endfor %}

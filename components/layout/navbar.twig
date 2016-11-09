@@ -47,7 +47,7 @@
                     <h3>Partager une Photo</h3> 
                     <div class="social-sits">
                         <div class="uploadForm">
-                            <form method="post" action="/addPicture" enctype="multipart/form-data">
+                            <form method="post" action="/addPicture" id="uploadPictureForm" enctype="multipart/form-data">
                                 <textarea class="statut" name="descPicture" rows="10" placeholder="Décrivez votre Kebab..."></textarea>
                                 <input type="submit" value="Envoyer" />
 
@@ -58,7 +58,7 @@
                                 <div class="upload-file">
                                     <div class="services-icon">
 
-                                        <img src="/images/upload-logo-icon.png" id="picturePreview" aria-hidden="true" />
+                                        <img src="/images/upload-logo-icon.png" imageChoose="false" id="picturePreview" aria-hidden="true" />
                                         <input type="file" name="pictureInput" id="pictureInput" value="Choose file..">
                                     </div>
 
@@ -68,6 +68,17 @@
                                             var file = $(this)[0].files; // get the current value of the input field.
                                             $image_preview = $('#picturePreview');
                                             $image_preview.attr('src', window.URL.createObjectURL(file[0]));
+                                            $image_preview.attr('imageChoose', 'true');
+                                        });
+
+                                        $('#uploadPictureForm').on('submit', function() {
+                                            $image_preview = $('#picturePreview');
+                                            $res=true;
+                                            if($image_preview.attr('imageChoose')==='false'){
+                                                alert("Il faut mettre une image !");
+                                                $res = false;
+                                            }
+                                            return $res;
                                         });
                                     </script>
                                 </div>

@@ -25,7 +25,14 @@ final class HomeController
     public function displayHomepage(Request $request, Response $response, $args)
     {
         $this->logger->info("Home page action dispatched");
-        $this->view->render($response, 'homepage.twig', array('posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15), 'user' => Sentinel::check()));
+        
+        //Preparation of datas to send to the twig
+        $datas = array(
+            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15), 
+            'user' => Sentinel::check(), 
+            'menuTabSelected' => '1');
+
+        $this->view->render($response, 'homepage.twig', $datas);
 		
         return $response;
     }
