@@ -4,3 +4,4 @@ storage/log/
 config/database.php
 .DS_STORE
 .idea
+public/images/pictures/
