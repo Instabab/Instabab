@@ -30,52 +30,59 @@ class PictureController
         $this->logger->info('Start to add picture');
 
         $user = Sentinel::check();
+        $success = true;
+        $msg = 'Photo publiée';
 
-        $posts = Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15);
 
-        if(!$user)
-            return $this->view->render($response, 'displayMessage.twig', array('success' => false, 'user' => $user,  'message' => 'Il faut être connecté pour ajouter une photo'
-                                                                                , 'posts' => $posts));
-        if ($_FILES['pictureInput']['error'] > 0)
-            return $this->view->render($response, 'displayMessage.twig', array('success' => false, 'user' => $user,  'message' => 'Erreur lors du transfert de la photo.'
-                                                                            , 'posts' => $posts));
+        if(!$user) {
+            $msg = 'Il faut être connecté pour ajouter une photo';
+            $success = false;
+        } else {
+            if ($_FILES['pictureInput']['error'] > 0) {
+                $msg = 'Erreur lors du transfert de la photo.';
+                $success = false;
+            } else {
 
-        $name = md5($user['email'].time());
-        $extension_upload = strtolower(  substr(  strrchr($_FILES['pictureInput']['name'], '.')  ,1)  );
-        $path = "images/pictures/$name.$extension_upload";
-        $success = move_uploaded_file($_FILES['pictureInput']['tmp_name'],$path);
-        if (!$success)  return $this->view->render($response, 'displayMessage.twig', array('success' => false,'user' => $user, 'message' => 'Erreur lors du déplacement de la photo.'
-                                                    , 'posts' => $posts));
+                $name = md5($user['email'] . time());
+                $extension_upload = strtolower(substr(strrchr($_FILES['pictureInput']['name'], '.'), 1));
+                $path = "images/pictures/$name.$extension_upload";
+                $moveSuccess = move_uploaded_file($_FILES['pictureInput']['tmp_name'], $path);
+                if (!$moveSuccess) {
+                    $msg = 'Erreur lors du déplacement de la photo.';
+                    $success = false;
+                } else {
+                    $data = $request->getParsedBody();
 
-        $data = $request->getParsedBody();
+                    $userId = $user['id'];
+                    $desc = $data['descPicture'];
+                    $tags = $this->searchTag($desc);
 
-        $userId = $user['id'];
-        $desc = $data['descPicture'];
-        $tags = $this->searchTag($desc);
+                    $picture = new Photo();
+                    $picture->message = $desc;
+                    $picture->photo = '/' . $path;
+                    $picture->id_place = 3;
+                    $picture->id_user = $userId;
+                    $picture->save();
+                    $idPicture = $picture->id;
 
-        $picture = new Photo();
-        $picture->message = $desc;
-        $picture->photo = '/'.$path;
-        $picture->id_place = 3;
-        $picture->id_user = $userId;
-        $picture->save();
-        $idPicture =  $picture->id;
-
-        foreach($tags as $t) {
-            $tag = Tags::where('name', $t)->first();
-            if(!$tag) {
-                $tag = new Tags();
-                $tag->name = $t;
-                $tag->save();
+                    foreach ($tags as $t) {
+                        $tag = Tags::where('name', $t)->first();
+                        if (!$tag) {
+                            $tag = new Tags();
+                            $tag->name = $t;
+                            $tag->save();
+                        }
+                        $tagsPhotos = new TagsPhotos();
+                        $tagsPhotos->id_photo = $idPicture;
+                        $tagsPhotos->id_tag = $tag->id;
+                        $tagsPhotos->save();
+                    }
+                }
             }
-            $tagsPhotos = new TagsPhotos();
-            $tagsPhotos->id_photo = $idPicture;
-            $tagsPhotos->id_tag = $tag->id;
-            $tagsPhotos->save();
         }
-
-        return $this->view->render($response, 'displayMessage.twig', array('success' => true, 'user' => $user, 'message' => 'Photo publiée'
-                                                                            , 'posts' => $posts));
+        $posts = Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15);
+        return $this->view->render($response, 'displayMessage.twig', array('success' => $success, 'user' => $user, 'message' => $msg
+                                                                            ,'posts' => $posts));
 
     }
 
