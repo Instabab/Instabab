@@ -606,7 +606,6 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 .recommended-grid-info h3 {
   margin: 0;
   overflow: hidden;
-  height: 54px;
 }
 .recommended-grid-info h5 {
   margin: 0;
@@ -616,9 +615,24 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 .resent-grid-info a.title-info{
     font-size: 15px;
 }
-.recommended-grid-info p.author {
+.recommended-grid-info p.author{
     font-size: 13px;
     margin: 1em 0 0 0;
+}
+.recommended-grid-info p.place {
+    font-size: 11px;
+    margin: 1em 0 0 0;
+}
+.recommended-grid-info p.likes {
+    font-size: 11px;
+    margin: 1em 0 0 0;
+}
+.resent-grid-info a{
+    color: #21DEEF;
+    text-decoration: none;
+}
+.resent-grid-info p.author a.author:hover{
+    text-decoration: none;
 }
 .resent-grid-info ul{
 	padding:0;
@@ -632,8 +646,7 @@ a.btn.btn-primary.btn-lg.see-button.hvr-shutter-out-horizontal {
 	margin:0 !important;
 }
 .recommended-grid-info ul li{
-    display: inline-block !important;
-    width: 49%;
+    display: block;
 }
 .recommended-grid-info ul li.right-list{
    text-align:right;
@@ -2772,4 +2785,31 @@ background: url(../images/social.png) no-repeat 0px 0px;
     outline: none;
     color: #817F7F;
     border: solid 1px #817F7F;
+}
+
+.profile-description img {
+    width: 150px;
+}
+
+.profile-description {
+    margin-bottom: 10px;
+}
+
+.statusButton {
+    background-color: #21DEEF;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+a.statusButton {
+    color: white;
+    font-size: 12px;
+}
+
+.place a {
+    cursor:pointer;
+}
+
+.dontDisplay {
+    display:none;
 }

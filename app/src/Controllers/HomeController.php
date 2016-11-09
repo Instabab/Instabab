@@ -7,6 +7,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 
+use App\Models\Photo;
+
 final class HomeController
 {
     private $view;
@@ -23,7 +25,7 @@ final class HomeController
     public function displayHomepage(Request $request, Response $response, $args)
     {
         $this->logger->info("Home page action dispatched");
-        $this->view->render($response, 'homepage.twig', array('user' => Sentinel::check()));
+        $this->view->render($response, 'homepage.twig', array('posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15), 'user' => Sentinel::check()));
 		
         return $response;
     }

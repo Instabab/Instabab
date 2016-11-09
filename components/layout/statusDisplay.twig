@@ -1,0 +1,40 @@
+<div class="col-md-4 resent-grid recommended-grid slider-top-grids">
+    <div class="resent-grid-img recommended-grid-img">
+        <a href="single.html"><img src="{{post.photo}}" alt="Kebab picture" /></a>
+    </div>
+    <div class="resent-grid-info recommended-grid-info">
+        <h3><a href="single.html" class="title title-info">{{post.message}}</a></h3>
+        <ul>
+            <li><p class="author"><a href="/profile/{{post.user.id}}" class="author">{{post.user.first_name}} {{post.user.last_name}}</a></p></li>
+            <li><p class="place">Kebab de <a onclick="toggle_div('placeAddress{{post.place.id}}{{post.id}}')">{{post.place.name}}</a><br /><span class="dontDisplay" id="placeAddress{{post.place.id}}{{post.id}}">{{post.place.address}}</span></p></li>
+            <li><p class="likes">
+                {% set like = 0 %}
+                {% set dislike = 0 %}
+                {% for i in 0 .. post.notes.count-1 %}
+                    {% if post.notes[i].value == 1 %}
+                        {% set like = like + 1%}
+                    {% else %}
+                        {% set dislike = dislike + 1 %}
+                    {% endif %}
+                {% endfor %}
+                <span class="glyphicon glyphicon-thumbs-up"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down"></span> {{dislike}} Je n'aime pas
+            </p></li>
+        </ul>
+        {% if user %}
+            <hr>
+            <p><a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function toggle_div(id) {
+        var div = document.getElementById(id);
+
+        if(div.style.display=="none") {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+    }
+</script>

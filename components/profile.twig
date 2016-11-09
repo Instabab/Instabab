@@ -1,0 +1,30 @@
+{% extends 'layout/pattern.twig' %}
+
+{% block content %}
+    <div class="main-grids">
+        <div class="top-grids">
+            <div class="recommended-info">
+                <div class="col-xs-11 profile-description resent-grid-info recommended-grid-info">
+                    <div class="media-left">
+                        {% if profile.avatar %}
+                            <img class="media-object img-rounded" src="{{profile.avatar}}" alt="Profile picture" />
+                        {% else %}
+                            <img src="/images/profiles/default.png" alt="Default profile picture" />
+                        {% endif %}
+                    </div>
+                    <div class="media-body">
+                        <h3><a href="/profile/{{user.id}}" class="title title-info">{{profile.first_name}} {{profile.last_name}}</a></h3>
+                        <p>{{profile.description}}</p>
+                        <ul>
+                            <li><p class="views views-info">{{posts.count}} publications</p></li>
+                        </ul>
+                    </div>  
+                </div>
+            </div>
+            {% for post in posts %}
+                {% include 'layout/statusDisplay.twig' %}
+            {% endfor %}
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+{% endblock %}
