@@ -25,6 +25,42 @@ final class TagController
         $this->logger = $logger;
         $this->model = $user;
     }
+    
+    /**
+     * Method which display a tag from its id 
+     * args - {id: id of the tag}
+     */
+    public function displayTag(Request $request, Response $response, $args) {
+        $this->logger->info('Start to display tag with id: '.$args['id']);
+        $tag = Tags::find($args['id']); //Look for the tag in DB
+        
+        if($tag != null) {
+            //tag found
+            $this->logger->info('Tag '.$tag->id.' found: display tag');
+            
+            $menuActive = 5;    
+            
+            //Preparation of datas to send to the twig
+            $datas = array(
+                'tag' => $tag, 
+                'posts' => $tag->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id'),
+                'menuActive' => $menuActive,
+                'user' => Sentinel::forceCheck());
+            
+            $this->view->render($response, 'tag.twig', $datas);    
+        } else {
+            //tag not found
+            $this->logger->info('Error: tag '.$args['id'].' not found');
+            
+            //Preparation of datas to send to the twig
+            $datas = array(
+                'success' => false, 
+                'message' => 'Le tag recherché n\'existe pas ou plus.', 
+                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
+            
+            $this->view->render($response, 'displayMessage.twig', $datas);
+        }
+    }
 
     /**
      * Method which display last tags

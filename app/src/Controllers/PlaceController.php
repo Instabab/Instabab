@@ -26,7 +26,7 @@ final class PlaceController
 
     /**
      * Method which display a kebab place from its id 
-     * args - {id: user's id}
+     * args - {id: id of the place}
      */
     public function displayPlace(Request $request, Response $response, $args) {
         $this->logger->info('Start to display kebab place with id: '.$args['id']);
@@ -59,7 +59,6 @@ final class PlaceController
             $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
-    
     
     /**
      * Method which display all kebab places

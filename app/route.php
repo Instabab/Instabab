@@ -15,6 +15,7 @@ $app->post('/profile/settings/{id}', 'App\Controllers\ProfileController:updatePr
 $app->get('/place/{id}', 'App\Controllers\PlaceController:displayPlace')->setName('displayPlace')->add('checkAuthentication');
 $app->get('/places', 'App\Controllers\PlaceController:displayAllPlaces')->setName('displayAllPlaces')->add('checkAuthentication');
 $app->get('/tags', 'App\Controllers\TagController:displayLastTags')->setName('displayLastTags')->add('checkAuthentication');
+$app->get('/tag/{id}', 'App\Controllers\TagController:displayTag')->setName('displayTag')->add('checkAuthentication');
 
 //Routes where the user has to be disconnected
 $app->post('/register', 'App\Controllers\UserController:registerUser')->setName('register')->add('checkNoAuthentication');
