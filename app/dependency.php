@@ -108,6 +108,14 @@ $container['App\Controllers\PlaceController'] = function ($c) {
     );
 };
 
+$container['App\Controllers\TagController'] = function ($c) {
+    return new App\Controllers\TagController(
+        $c->get('view'),
+        $c->get('logger'),
+        $c->get('App\Repositories\HomeRepository')
+    );
+};
+
 $container['App\Controllers\PictureController'] = function ($c) {
     return new App\Controllers\PictureController(
         $c->get('view'),
