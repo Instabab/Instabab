@@ -6,6 +6,7 @@
 
 //Routes opened to every user
 $app->get('/', 'App\Controllers\HomeController:displayHomepage')->setName('homepage');
+$app->post('/search', 'App\Controllers\HomeController:search')->setName('search');
 
 //Routes restricted to connected users
 $app->post('/logout', 'App\Controllers\UserController:logout')->setName('logout')->add('checkAuthentication');

@@ -1,0 +1,53 @@
+{% extends 'layout/pattern.twig' %}
+{% set thereAreResults = false %}
+
+{% block content %}
+    <div class="main-grids">
+        <div class="top-grids">
+            <div class="recommended-info">
+                <h3>Resultats de la recherche : {{searchQuery}}</h3>
+            </div>
+            
+            {% for key, result in searchResults %}
+                {% if key == 'Photo'and result.count != 0 %}
+                    {% set thereAreResults = true %}
+                    <div class="col-xs-12 recommended-info">
+                        <h4>Statuts</h4>
+                    </div>
+                    {% for post in result %}
+                        {% include 'layout/statusSearchDisplay.twig' %}
+                    {% endfor %}
+                {% elseif key == 'Place' and result.count != 0 %}
+                    {% set thereAreResults = true %}
+                    <div class="col-xs-12 recommended-info">
+                        <h4>Restaurants</h4>
+                    </div>
+                    {% for place in result %}
+                        {% include 'layout/placeDisplay.twig' %}
+                    {% endfor %}
+                {% elseif key == 'Tags' and result.count != 0 %}
+                    {% set thereAreResults = true %}
+                    <div class="col-xs-12 recommended-info">
+                        <h4>Tags</h4>
+                    </div>
+                    {% for tag in result %}
+                        {% include 'layout/tagDisplay.twig' %}
+                    {% endfor %}
+                {% elseif key == 'User' and result.count != 0 %}
+                    {% set thereAreResults = true %}
+                    <div class="col-xs-12 recommended-info">
+                        <h4>Membres</h4>
+                    </div>
+                    {% for profile in result %}
+                        {% include 'layout/userDisplay.twig' %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            
+            {% if thereAreResults == false %}
+                <p>Aucun résultat</p>
+            {% endif %}
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+{% endblock %}
