@@ -52,13 +52,13 @@
                                 <label for="place_chooser">Dans quel Kebab à été prise la photo ?</label>
                                 <select class="statut" id="place_chooser" name="place_chooser">
                                     {% for place in places %}
-                                        <option value="{{ place.id }}">{{ place.name }}</option>
+                                        <option value="{{ place.id }}">{{ place.name }} - {{ place.address }}</option>
                                     {% endfor %}
                                     <option value="-1">Autre ...</option>
                                 </select>
                                 <div id="newPlaceForm" class="dontDisplay">
-                                    <input  class="statut" type="text" placeholder="Nom du restaurant" name="placeName" />
-                                    <input  class="statut" type="text" placeholder="Adresse du restaurant" name="placeAdress" />
+                                    <input  class="statut" type="text" placeholder="Nom du restaurant" name="placeName" maxlength="80" required />
+                                    <input  class="statut" type="text" placeholder="Adresse du restaurant" name="placeAddress" maxlength="150" required />
                                 </div>
                                 <input type="submit" value="Envoyer" />
 

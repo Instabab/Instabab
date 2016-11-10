@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Factories\MessageFactory;
 use App\Factories\BasicFactory;
 use App\Models\Photo;
+use App\Models\Place;
 use App\Models\Tags;
 use App\Models\TagsPhotos;
 use Psr\Log\LoggerInterface;
@@ -61,9 +62,25 @@ class PictureController
                     $msg = 'Choisissez un vrai kebab !';
                     $success = false;
                 } else {
-                    if($placeId == '-1'){
-                        addKebab($data);
+                    if ($placeId == '-1') {
+                        $placeName = $data['placeName'];
+                        $placeAddress = $data['placeAddress'];
+                        if($placeAddress=="" || $placeName==""){
+                            $datas = MessageFactory::make('L\'adresse et le nom du restaurant sont requis');
+                            return $this->view->render($response, 'displayMessage.twig', $datas);
+                        }
+                        //look if the name place is already exist
+                        if ($place = Place::where('name', $placeName)->where('address', $placeAddress)->first())
+                            $placeId = $place->id;
+                        else {
+                            $place = new Place();
+                            $place->name = $placeName;
+                            $place->address = $placeAddress;
+                            $place->save();
+                            $placeId = $place->id;
+                        }
                     }
+
                     $picture = new Photo();
                     $picture->message = $desc;
                     $picture->photo = '/' . $path;
@@ -103,8 +120,9 @@ class PictureController
     private function searchTag($desc){
         $pos = 0;
         $pos2 = 0;
+        $size = strlen($desc);
         $tags = array();
-        while($pos = stripos($desc,'#', $pos+1)){
+        while($pos<$size && $pos = stripos($desc,'#', $pos+1)){
             $pos2 = stripos($desc, ' ', $pos);
             if($pos2)
                 $tag = substr($desc, $pos, $pos2-$pos);
@@ -115,9 +133,5 @@ class PictureController
         }
 
         return $tags;
-    }
-
-    private function addKebab($data){
-
     }
 }

@@ -16,7 +16,7 @@ class BasicFactory
                         'messageActive' => $messageActive,
                         'user' => Sentinel::check(),
                         'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15),
-                        'places' => Place::all()
+                        'places' => Place::all()->sortBy('name')
                 );
     }
 }

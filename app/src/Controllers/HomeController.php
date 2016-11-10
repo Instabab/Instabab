@@ -32,7 +32,7 @@ final class HomeController
         $datas = BasicFactory::make();
 
         $this->view->render($response, 'homepage.twig', $datas);
-		
+
         return $response;
     }
 }
