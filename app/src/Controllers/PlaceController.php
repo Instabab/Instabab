@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 
 use App\Models\Place;
+use App\Models\Photo;
 
 final class PlaceController
 {
