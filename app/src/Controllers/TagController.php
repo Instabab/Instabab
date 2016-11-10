@@ -47,7 +47,7 @@ final class TagController
             $datas['tag'] = $tag;
             $datas['posts'] = $tag->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id');
 
-            $this->view->render($response, 'tag.twig', $datas);    
+            return $this->view->render($response, 'tag.twig', $datas);
         } else {
             //tag not found
             $this->logger->info('Error: tag '.$args['id'].' not found');
@@ -55,7 +55,7 @@ final class TagController
             //Preparation of datas to send to the twig
             $datas = MessageFactory::make('Le tag recherché n\'existe pas ou plus.');
 
-            $this->view->render($response, 'displayMessage.twig', $datas);
+            return $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
 
@@ -77,7 +77,7 @@ final class TagController
             $datas['tags'] = $tags;
 
             
-            $this->view->render($response, 'lastTags.twig', $datas);    
+            return $this->view->render($response, 'lastTags.twig', $datas);
         } else {
             //no tags found
             $this->logger->info('Error: no tags found in database');
@@ -85,7 +85,7 @@ final class TagController
             //Preparation of datas to send to the twig
             $datas = MessageFactory::make('Aucun tag n\'a été trouvé. Veuillez réessayer plus tard.');
 
-            $this->view->render($response, 'displayMessage.twig', $datas);
+            return $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
 }

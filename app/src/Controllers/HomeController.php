@@ -40,7 +40,7 @@ final class HomeController
         //Preparation of datas to send to the twig
         $datas = BasicFactory::make();
 
-        $this->view->render($response, 'homepage.twig', $datas);
+        return $this->view->render($response, 'homepage.twig', $datas);
 
         return $response;
     }
@@ -106,7 +106,7 @@ final class HomeController
             $datas = BasicFactory::make();
             $datas['searchResults'] = $searchResults;
             $datas['searchQuery'] = $searchTextValue;
-            
+
             $this->logger->info('Research successfully ended');
 
             return $this->view->render($response, 'search.twig', $datas);  

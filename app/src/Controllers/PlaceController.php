@@ -45,7 +45,7 @@ final class PlaceController
             $datas['place'] = $place;
             $datas['posts'] = $place->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id');
 
-            $this->view->render($response, 'place.twig', $datas);    
+            return $this->view->render($response, 'place.twig', $datas);
         } else {
             //place not found
             $this->logger->info('Error: place '.$args['id'].' not found');
@@ -53,7 +53,7 @@ final class PlaceController
             //Preparation of datas to send to the twig
             $datas = MessageFactory::make('Le restaurant recherché n\'existe pas ou plus.');
 
-            $this->view->render($response, 'displayMessage.twig', $datas);
+            return $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
     
@@ -74,7 +74,7 @@ final class PlaceController
             $datas = BasicFactory::make($menuActive);
             $datas['places'] = $places;
 
-            $this->view->render($response, 'allPlaces.twig', $datas);    
+            return $this->view->render($response, 'allPlaces.twig', $datas);
         } else {
             //no places found
             $this->logger->info('Error: no places found in database');
@@ -82,7 +82,7 @@ final class PlaceController
             //Preparation of datas to send to the twig
             $datas = MessageFactory::make('Aucun restaurant n\'a été trouvé. Veuillez réessayer plus tard.');
 
-            $this->view->render($response, 'displayMessage.twig', $datas);
+            return $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
 }
