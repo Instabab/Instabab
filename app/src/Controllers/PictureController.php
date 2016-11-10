@@ -53,28 +53,35 @@ class PictureController
                 $data = $request->getParsedBody();
 
                 $userId = $user['id'];
-                $desc = $data['descPicture'];
+
+                $desc =$data['descPicture'];
                 $tags = $this->searchTag($desc);
 
-                $picture = new Photo();
-                $picture->message = $desc;
-                $picture->photo = '/' . $path;
-                $picture->id_place = 3;
-                $picture->id_user = $userId;
-                $picture->save();
-                $idPicture = $picture->id;
+                if(!($placeId = filter_var($data['place_chooser'], FILTER_VALIDATE_INT))){
+                    $msg = 'Choisissez un vrai kebab !';
+                    $success = false;
+                } else {
 
-                foreach ($tags as $t) {
-                    $tag = Tags::where('name', $t)->first();
-                    if (!$tag) {
-                        $tag = new Tags();
-                        $tag->name = $t;
-                        $tag->save();
+                    $picture = new Photo();
+                    $picture->message = $desc;
+                    $picture->photo = '/' . $path;
+                    $picture->id_place = $placeId;
+                    $picture->id_user = $userId;
+                    $picture->save();
+                    $idPicture = $picture->id;
+
+                    foreach ($tags as $t) {
+                        $tag = Tags::where('name', $t)->first();
+                        if (!$tag) {
+                            $tag = new Tags();
+                            $tag->name = $t;
+                            $tag->save();
+                        }
+                        $tagsPhotos = new TagsPhotos();
+                        $tagsPhotos->id_photo = $idPicture;
+                        $tagsPhotos->id_tag = $tag->id;
+                        $tagsPhotos->save();
                     }
-                    $tagsPhotos = new TagsPhotos();
-                    $tagsPhotos->id_photo = $idPicture;
-                    $tagsPhotos->id_tag = $tag->id;
-                    $tagsPhotos->save();
                 }
             }
         }
