@@ -106,6 +106,8 @@ final class HomeController
                 'searchQuery' => $searchTextValue,
                 'menuActive' => 1,
                 'user' => Sentinel::forceCheck());
+            
+            $this->logger->info('Research successfully ended');
 
             return $this->view->render($response, 'search.twig', $datas);  
         } else {
@@ -116,6 +118,8 @@ final class HomeController
                 'user' => Sentinel::check(), 
                 'message' => 'Le champ de recherche ne doit pas être vide pour effectuer une recherche.',
                 'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
+            
+            $this->logger->info('The user didn\'t fill the form');
 
             return $this->view->render($response, 'displayMessage.twig', $datas);
         }
