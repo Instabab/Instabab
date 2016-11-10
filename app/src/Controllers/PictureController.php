@@ -61,7 +61,9 @@ class PictureController
                     $msg = 'Choisissez un vrai kebab !';
                     $success = false;
                 } else {
-
+                    if($placeId == '-1'){
+                        addKebab($data);
+                    }
                     $picture = new Photo();
                     $picture->message = $desc;
                     $picture->photo = '/' . $path;
@@ -77,6 +79,7 @@ class PictureController
                             $tag->name = $t;
                             $tag->save();
                         }
+
                         $tagsPhotos = new TagsPhotos();
                         $tagsPhotos->id_photo = $idPicture;
                         $tagsPhotos->id_tag = $tag->id;
@@ -112,5 +115,9 @@ class PictureController
         }
 
         return $tags;
+    }
+
+    private function addKebab($data){
+
     }
 }
