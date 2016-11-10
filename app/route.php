@@ -11,7 +11,9 @@ $app->get('/', 'App\Controllers\HomeController:displayHomepage')->setName('homep
 $app->post('/logout', 'App\Controllers\UserController:logout')->setName('logout')->add('checkAuthentication');
 $app->post('/addPicture', 'App\Controllers\PictureController:addPicture')->setName('addPicture')->add('checkAuthentication');
 $app->get('/profile/{id}', 'App\Controllers\ProfileController:displayProfile')->setName('displayProfile')->add('checkAuthentication');
-$app->post('/profile/settings/{id}', 'App\Controllers\UserController:updateProfile')->setName('updateProfile')->add('checkAuthentication');
+$app->post('/profile/settings/{id}', 'App\Controllers\ProfileController:updateProfile')->setName('updateProfile')->add('checkAuthentication');
+$app->get('/place/{id}', 'App\Controllers\PlaceController:displayPlace')->setName('displayPlace')->add('checkAuthentication');
+$app->get('/places', 'App\Controllers\PlaceController:displayAllPlaces')->setName('displayAllPlaces')->add('checkAuthentication');
 
 //Routes where the user has to be disconnected
 $app->post('/register', 'App\Controllers\UserController:registerUser')->setName('register')->add('checkNoAuthentication');

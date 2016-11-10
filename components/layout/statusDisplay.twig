@@ -6,7 +6,9 @@
         <h3><a href="single.html" class="title title-info">{{post.message}}</a></h3>
         <ul>
             <li><p class="author"><a href="/profile/{{post.user.id}}" class="author">{{post.user.first_name}} {{post.user.last_name}}</a></p></li>
-            <li><p class="place">Kebab de <a onclick="toggle_div('placeAddress{{post.place.id}}{{post.id}}')">{{post.place.name}}</a><br /><span class="dontDisplay" id="placeAddress{{post.place.id}}{{post.id}}">{{post.place.address}}</span></p></li>
+            {% if post.place.id %}
+                <li><p class="place">Kebab de <a href="/place/{{post.place.id}}">{{post.place.name}}</a></p></li>
+            {% endif %}
             <li><p class="likes">
                 {% set like = 0 %}
                 {% set dislike = 0 %}
@@ -26,15 +28,3 @@
         {% endif %}
     </div>
 </div>
-
-<script>
-    function toggle_div(id) {
-        var div = document.getElementById(id);
-
-        if(div.style.display=="none") {
-            div.style.display = "block";
-        } else {
-            div.style.display = "none";
-        }
-    }
-</script>

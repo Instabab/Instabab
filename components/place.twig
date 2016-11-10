@@ -1,0 +1,26 @@
+{% extends 'layout/pattern.twig' %}
+
+{% block content %}
+    <div class="main-grids">
+        <div class="top-grids">
+            <div class="recommended-info">
+                <div class="col-xs-11 profile-description resent-grid-info recommended-grid-info">
+                    <div class="media-left">
+                        <img src="/images/places/default.png" alt="Default profile picture" />
+                    </div>
+                    <div class="media-body">
+                        <h3><a href="/place/{{place.id}}" class="title title-info">{{place.name}}</a></h3>
+                        <p>{{place.address}}</p>
+                        <ul>
+                            <li><p class="views views-info">{{posts.count}} photos à propos de ce restaurant</p></li>
+                        </ul>
+                    </div>  
+                </div>
+            </div>
+            {% for post in posts %}
+                {% include 'layout/statusDisplay.twig' %}
+            {% endfor %}
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+{% endblock %}
