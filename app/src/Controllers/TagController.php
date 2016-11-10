@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Factories\BasicFactory;
+use App\Factories\MessageFactory;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -41,23 +43,18 @@ final class TagController
             $menuActive = 5;    
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'tag' => $tag, 
-                'posts' => $tag->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id'),
-                'menuActive' => $menuActive,
-                'user' => Sentinel::forceCheck());
-            
+            $datas = BasicFactory::make($menuActive);
+            $datas['tag'] = $tag;
+            $datas['posts'] = $tag->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id');
+
             $this->view->render($response, 'tag.twig', $datas);    
         } else {
             //tag not found
             $this->logger->info('Error: tag '.$args['id'].' not found');
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'success' => false, 
-                'message' => 'Le tag recherché n\'existe pas ou plus.', 
-                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+            $datas = MessageFactory::make('Le tag recherché n\'existe pas ou plus.');
+
             $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
@@ -76,10 +73,9 @@ final class TagController
             $menuActive = 5;    
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'tags' => $tags, 
-                'menuActive' => $menuActive,
-                'user' => Sentinel::forceCheck());
+            $datas = BasicFactory::make($menuActive);
+            $datas['tags'] = $tags;
+
             
             $this->view->render($response, 'lastTags.twig', $datas);    
         } else {
@@ -87,11 +83,8 @@ final class TagController
             $this->logger->info('Error: no tags found in database');
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'success' => false, 
-                'message' => 'Aucun tag n\'a été trouvé. Veuillez réessayer plus tard.', 
-                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+            $datas = MessageFactory::make('Aucun tag n\'a été trouvé. Veuillez réessayer plus tard.');
+
             $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
