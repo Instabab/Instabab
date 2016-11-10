@@ -2031,10 +2031,11 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		width: 25%;
 		margin-bottom: 2em;
 	}
-	.slider-top-grids {
-		width: 33.33% !important;
-		float: left !important;
-	}
+    .slider-top-grids {
+        width: 66.6% !important;
+        margin-left: 16.65% !important;
+        float: none !important;
+    }
 	.side-bottom {
 	    position: inherit;
 		padding: 2em 0;
@@ -2397,6 +2398,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 	}
 	.slider-top-grids {
 		width: 100% !important;
+        margin-left : 0% !important;
 		float: none !important;
 	}
 	.recommended-grid-info ul li {
