@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Factories\BasicFactory;
+use App\Factories\MessageFactory;
+use App\Factories\TwigDataFactory;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -42,23 +45,17 @@ final class ProfileController
                 $menuActive = 1;
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'profile' => $profile, 
-                'posts' => $profile->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id'),
-                'menuActive' => $menuActive,
-                'user' => Sentinel::forceCheck());
-            
+            $datas = BasicFactory::make($menuActive);
+            $datas['profile'] = $profile;
+
             $this->view->render($response, 'profile.twig', $datas);    
         } else {
             //Profile not found
             $this->logger->info('Error: profile '.$args['id'].' not found');
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'success' => false, 
-                'message' => 'L\'utilisateur recherché n\'existe pas ou plus.', 
-                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+            $datas = MessageFactory::make('L\'utilisateur recherché n\'existe pas ou plus.');
+
             $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
@@ -104,34 +101,22 @@ final class ProfileController
                     
                         Sentinel::update($user, $userDataToUpdate);
                         $user->save();
-                        
-                        $datas = array( 
-                            'success' => true,
-                            'message' => 'Votre profil a bien été mis à jour.',
-                            'user' => Sentinel::forceCheck(),
-                            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-                    
+
+                        $datas = MessageFactory::make('Votre profil a bien été mis à jour.', true);
+
                         return $this->view->render($response, 'displayMessage.twig', $datas);
                 } else {
                     $this->logger->info('Error: the given email address wasn\'t valid');
-                    
-                    $datas = array( 
-                        'success' => false, 
-                        'message' => 'L\'adresse e-mail que vous avez fournie n\'est pas valide.',
-                        'user' => Sentinel::forceCheck(),
-                        'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-                    
+
+                    $datas = MessageFactory::make('L\'adresse e-mail que vous avez fournie n\'est pas valide.');
+
                     return $this->view->render($response, 'displayMessage.twig', $datas);
                 }
             } else {
                 $this->logger->info('Error: password and passwordRepeat didn\'t match');
-                
-                $datas = array( 
-                    'success' => false, 
-                    'message' => 'Les deux mots de passe que vous avez entré ne correspondent pas.',
-                    'user' => Sentinel::forceCheck(),
-                    'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-                
+
+                $datas = MessageFactory::make('Les deux mots de passe que vous avez entré ne correspondent pas.');
+
                 return $this->view->render($response, 'displayMessage.twig', $datas);
             }
         } else {

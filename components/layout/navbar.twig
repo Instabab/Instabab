@@ -49,6 +49,17 @@
                         <div class="uploadForm">
                             <form method="post" action="/addPicture" id="uploadPictureForm" enctype="multipart/form-data">
                                 <textarea class="statut" name="descPicture" rows="10" placeholder="Décrivez votre Kebab..."></textarea>
+                                <label for="place_chooser">Dans quel Kebab à été prise la photo ?</label>
+                                <select class="statut" id="place_chooser" name="place_chooser">
+                                    {% for place in places %}
+                                        <option value="{{ place.id }}">{{ place.name }} - {{ place.address }}</option>
+                                    {% endfor %}
+                                    <option value="-1">Autre ...</option>
+                                </select>
+                                <div id="newPlaceForm" class="dontDisplay">
+                                    <input  class="statut" type="text" placeholder="Nom du restaurant" name="placeName" maxlength="80" required />
+                                    <input  class="statut" type="text" placeholder="Adresse du restaurant" name="placeAddress" maxlength="150" required />
+                                </div>
                                 <input type="submit" value="Envoyer" />
 
                             </div>
@@ -80,6 +91,22 @@
                                             }
                                             return $res;
                                         });
+
+                                        $('#place_chooser').on('change', function() {
+                                            var value = $(this).val();
+                                            var div = $('#newPlaceForm');
+                                            if(div.css('display') === 'block' && value !== '-1' )
+                                                div.css('display', 'none');
+                                            else if(div.css('display') !== 'block' && value === '-1')
+                                                div.css('display','block');
+                                        });
+
+                                        function toggleDisplay(element){
+                                            if(element.style.display == "none")
+                                                element.style.display = "block";
+                                            else
+                                                element.style.display= "none";
+                                        }
                                     </script>
                                 </div>
                                 <div class="upload-info">

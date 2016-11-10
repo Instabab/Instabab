@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Factories\MessageFactory;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -46,49 +47,34 @@ final class UserController
                     if(!empty($userForm['first_name']) && !empty($userForm['last_name'])) {
                         //Successful verifications
                         Sentinel::registerAndActivate($userForm);
-                        
-                        $datas = array( 
-                            'success' => true,
-                            'message' => 'Bravo '.$userForm['first_name'].' ! Vous avez bien été enregistré.',
-                            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-                        
+
+                        $datas = MessageFactory::make('Bravo '.$userForm['first_name'].' ! Vous avez bien été enregistré.', true);
+
                         return $this->view->render($response, 'displayMessage.twig', $datas);
                     } else {
                         $this->logger->info('Error: first_name and last_name can\'t be empty');
-                        
-                        $datas = array( 
-                            'success' => false, 
-                            'message' => 'Vous devez remplir les champs "nom" et "prénom" pour valider votre inscription.',
-                            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-                        
+
+                        $datas = MessageFactory::make('Vous devez remplir les champs "nom" et "prénom" pour valider votre inscription.');
+
                         return $this->view->render($response, 'displayMessage.twig', $datas);
                     }
                 } else {
                     $this->logger->info('Error: there is already a user using the given email address');
-                    
-                    $datas = array( 
-                        'success' => false, 
-                        'message' => 'Un utilisateur utilise déjà cette adresse e-mail.',
-                        'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-                    
+
+                    $datas = MessageFactory::make('Un utilisateur utilise déjà cette adresse e-mail.');
+
                     return $this->view->render($response, 'displayMessage.twig', $datas);
                 }
             } else {
                 $this->logger->info('Error: the given email address wasn\'t valid');
-                
-                $datas = array(
-                    'success' => false, 
-                    'message' => 'L\'adresse e-mail que vous avez fournie n\'est pas valide.', 
-                    'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-                
+
+                $datas = MessageFactory::make('L\'adresse e-mail que vous avez fournie n\'est pas valide.');
+
                 return $this->view->render($response, 'displayMessage.twig', $datas);
             }
         } else {
-            $datas = array( 
-                'success' => false, 
-                'message' => 'Les deux mots de passe que vous avez entré ne correspondent pas.', 
-                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+
+            $datas = MessageFactory::make('Les deux mots de passe que vous avez entré ne correspondent pas.');
             $this->logger->info('Error: password and passwordRepeat didn\'t match');
             return $this->view->render($response, 'displayMessage.twig', $datas);
         }
@@ -109,28 +95,17 @@ final class UserController
          if(filter_var($userForm['email'], FILTER_VALIDATE_EMAIL, FILTER_FLAG_PATH_REQUIRED) && !empty($userForm['password'])) {
             //Verification of connexion
              if($userInfo = Sentinel::forceAuthenticate($userForm)){
-                $datas = array(  
-                    'success' => true,
-                    'message' => 'Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.',
-                    'connected' => true,
-                    'user' => $userInfo,
-                    'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15)); 
-                 
+                 $datas = MessageFactory::make('Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.', true);
+
                 return $this->view->render($response, 'displayMessage.twig', $datas);
              } else {
-                $datas = array( 
-                    'success' => false, 
-                    'message' => 'Mail ou mot de passe invalide !',
-                    'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-                 
+                 $datas = MessageFactory::make('Mail ou mot de passe invalide !');
+
                 return $this->view->render($response, 'displayMessage.twig', $datas);    
              }
          } else {
-             $datas = array(   
-                 'success' => false,                                                           
-                 'message' => 'Mail invalide !',                                                          
-                 'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-             
+             $datas = MessageFactory::make('Mail invalide !');
+
             return $this->view->render($response, 'displayMessage.twig', $datas);    
          }
          
@@ -142,24 +117,16 @@ final class UserController
      public function logout(Request $request, Response $response, $args) {
          $this->logger->info("Start to logout an user");
          Sentinel::logout();
-         
-         $datas = array(
-             'success'=>true, 
-             'connected' => false, 
-             'message' => 'Vous n\'êtes plus connecté.', 
-             'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-         
+
+         $datas = MessageFactory::make('Vous n\'êtes plus connecté.', true);
          return $this->view->render($response, 'displayMessage.twig', $datas);
      }
     /**
      * Method which display an authentication error to the user (when he needs to be connected)
      */
     public function userNeedsToAuthenticate(Request $request, Response $response, $args) {
-        $datas = array( 
-            'success' => false,                                                               
-            'message' => 'Vous devez être connecté pour accéder à cette page.',                                 
-            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-        
+        $datas = MessageFactory::make('Vous devez être connecté pour accéder à cette page.');
+
         return $this->view->render($response, 'displayMessage.twig', $datas);
     }
     
@@ -167,12 +134,8 @@ final class UserController
      * Method which display an authentication error to the user (when he needs to be disconnected)
      */
     public function userNeedsToLogout(Request $request, Response $response, $args) {
-        $datas = array( 
-            'success' => false,                                                               
-            'message' => 'Vous ne pouvez pas accéder à cette page en étant connecté.',
-            'user' => Sentinel::forceCheck(),
-            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-        
+        $datas = MessageFactory::make('Vous ne pouvez pas accéder à cette page en étant connecté.');
+
         return $this->view->render($response, 'displayMessage.twig', $datas);
     }
 }

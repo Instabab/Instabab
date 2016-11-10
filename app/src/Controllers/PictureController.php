@@ -2,7 +2,11 @@
 
 namespace App\Controllers;
 
+
+use App\Factories\MessageFactory;
+use App\Factories\BasicFactory;
 use App\Models\Photo;
+use App\Models\Place;
 use App\Models\Tags;
 use App\Models\TagsPhotos;
 use Psr\Log\LoggerInterface;
@@ -29,38 +33,58 @@ class PictureController
     public function addPicture(Request $request, Response $response, $args) {
         $this->logger->info('Start to add picture');
 
-        $user = Sentinel::check();
         $success = true;
         $msg = 'Photo publiée';
 
 
-        if(!$user) {
-            $msg = 'Il faut être connecté pour ajouter une photo';
+
+        if ($_FILES['pictureInput']['error'] > 0) {
+            $msg = 'Erreur lors du transfert de la photo.';
             $success = false;
         } else {
-            if ($_FILES['pictureInput']['error'] > 0) {
-                $msg = 'Erreur lors du transfert de la photo.';
+            $user = Sentinel::check();
+            $name = md5($user['email'] . time());
+            $extension_upload = strtolower(substr(strrchr($_FILES['pictureInput']['name'], '.'), 1));
+            $path = "images/pictures/$name.$extension_upload";
+            $moveSuccess = move_uploaded_file($_FILES['pictureInput']['tmp_name'], $path);
+            if (!$moveSuccess) {
+                $msg = 'Erreur lors du déplacement de la photo.';
                 $success = false;
             } else {
+                $data = $request->getParsedBody();
 
-                $name = md5($user['email'] . time());
-                $extension_upload = strtolower(substr(strrchr($_FILES['pictureInput']['name'], '.'), 1));
-                $path = "images/pictures/$name.$extension_upload";
-                $moveSuccess = move_uploaded_file($_FILES['pictureInput']['tmp_name'], $path);
-                if (!$moveSuccess) {
-                    $msg = 'Erreur lors du déplacement de la photo.';
+                $userId = $user['id'];
+
+                $desc =$data['descPicture'];
+                $tags = $this->searchTag($desc);
+
+                if(!($placeId = filter_var($data['place_chooser'], FILTER_VALIDATE_INT))){
+                    $msg = 'Choisissez un vrai kebab !';
                     $success = false;
                 } else {
-                    $data = $request->getParsedBody();
-
-                    $userId = $user['id'];
-                    $desc = $data['descPicture'];
-                    $tags = $this->searchTag($desc);
+                    if ($placeId == '-1') {
+                        $placeName = $data['placeName'];
+                        $placeAddress = $data['placeAddress'];
+                        if($placeAddress=="" || $placeName==""){
+                            $datas = MessageFactory::make('L\'adresse et le nom du restaurant sont requis');
+                            return $this->view->render($response, 'displayMessage.twig', $datas);
+                        }
+                        //look if the name place is already exist
+                        if ($place = Place::where('name', $placeName)->where('address', $placeAddress)->first())
+                            $placeId = $place->id;
+                        else {
+                            $place = new Place();
+                            $place->name = $placeName;
+                            $place->address = $placeAddress;
+                            $place->save();
+                            $placeId = $place->id;
+                        }
+                    }
 
                     $picture = new Photo();
                     $picture->message = $desc;
                     $picture->photo = '/' . $path;
-                    $picture->id_place = 3;
+                    $picture->id_place = $placeId;
                     $picture->id_user = $userId;
                     $picture->save();
                     $idPicture = $picture->id;
@@ -72,6 +96,7 @@ class PictureController
                             $tag->name = $t;
                             $tag->save();
                         }
+
                         $tagsPhotos = new TagsPhotos();
                         $tagsPhotos->id_photo = $idPicture;
                         $tagsPhotos->id_tag = $tag->id;
@@ -80,14 +105,10 @@ class PictureController
                 }
             }
         }
-        
+
         //Preparation of datas to send to the twig
-        $datas = array(
-            'success' => $success, 
-            'user' => $user, 
-            'message' => $msg,
-            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+        $datas = MessageFactory::make($msg, $success);
+
         return $this->view->render($response, 'displayMessage.twig', $datas);
 
     }
@@ -99,8 +120,9 @@ class PictureController
     private function searchTag($desc){
         $pos = 0;
         $pos2 = 0;
+        $size = strlen($desc);
         $tags = array();
-        while($pos = stripos($desc,'#', $pos+1)){
+        while($pos<$size && $pos = stripos($desc,'#', $pos+1)){
             $pos2 = stripos($desc, ' ', $pos);
             if($pos2)
                 $tag = substr($desc, $pos, $pos2-$pos);
