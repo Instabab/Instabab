@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Factories\BasicFactory;
+use App\Factories\MessageFactory;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -38,23 +40,18 @@ final class PlaceController
             $menuActive = 4;    
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'place' => $place, 
-                'posts' => $place->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id'),
-                'menuActive' => $menuActive,
-                'user' => Sentinel::forceCheck());
-            
+            $datas = BasicFactory::make($menuActive);
+            $datas['place'] = $place;
+            $datas['posts'] = $place->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id');
+
             $this->view->render($response, 'place.twig', $datas);    
         } else {
             //place not found
             $this->logger->info('Error: place '.$args['id'].' not found');
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'success' => false, 
-                'message' => 'Le restaurant recherché n\'existe pas ou plus.', 
-                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+            $datas = MessageFactory::make('Le restaurant recherché n\'existe pas ou plus.');
+
             $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
@@ -74,22 +71,17 @@ final class PlaceController
             $menuActive = 4;    
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'places' => $places, 
-                'menuActive' => $menuActive,
-                'user' => Sentinel::forceCheck());
-            
+            $datas = BasicFactory::make($menuActive);
+            $datas['places'] = $places;
+
             $this->view->render($response, 'allPlaces.twig', $datas);    
         } else {
             //no places found
             $this->logger->info('Error: no places found in database');
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'success' => false, 
-                'message' => 'Aucun restaurant n\'a été trouvé. Veuillez réessayer plus tard.', 
-                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+            $datas = MessageFactory::make('Aucun restaurant n\'a été trouvé. Veuillez réessayer plus tard.');
+
             $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }

@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Factories\BasicFactory;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 
 use App\Models\Photo;
+use App\Factories\TwigDataFactory;
 
 final class HomeController
 {
@@ -27,10 +29,7 @@ final class HomeController
         $this->logger->info("Home page action dispatched");
         
         //Preparation of datas to send to the twig
-        $datas = array(
-            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15), 
-            'user' => Sentinel::check(), 
-            'menuTabSelected' => '1');
+        $datas = BasicFactory::make();
 
         $this->view->render($response, 'homepage.twig', $datas);
 		

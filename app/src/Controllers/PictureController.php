@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+
+use App\Factories\MessageFactory;
+use App\Factories\BasicFactory;
 use App\Models\Photo;
 use App\Models\Tags;
 use App\Models\TagsPhotos;
@@ -29,65 +32,56 @@ class PictureController
     public function addPicture(Request $request, Response $response, $args) {
         $this->logger->info('Start to add picture');
 
-        $user = Sentinel::check();
         $success = true;
         $msg = 'Photo publiée';
 
 
-        if(!$user) {
-            $msg = 'Il faut être connecté pour ajouter une photo';
+
+        if ($_FILES['pictureInput']['error'] > 0) {
+            $msg = 'Erreur lors du transfert de la photo.';
             $success = false;
         } else {
-            if ($_FILES['pictureInput']['error'] > 0) {
-                $msg = 'Erreur lors du transfert de la photo.';
+            $user = Sentinel::check();
+            $name = md5($user['email'] . time());
+            $extension_upload = strtolower(substr(strrchr($_FILES['pictureInput']['name'], '.'), 1));
+            $path = "images/pictures/$name.$extension_upload";
+            $moveSuccess = move_uploaded_file($_FILES['pictureInput']['tmp_name'], $path);
+            if (!$moveSuccess) {
+                $msg = 'Erreur lors du déplacement de la photo.';
                 $success = false;
             } else {
+                $data = $request->getParsedBody();
 
-                $name = md5($user['email'] . time());
-                $extension_upload = strtolower(substr(strrchr($_FILES['pictureInput']['name'], '.'), 1));
-                $path = "images/pictures/$name.$extension_upload";
-                $moveSuccess = move_uploaded_file($_FILES['pictureInput']['tmp_name'], $path);
-                if (!$moveSuccess) {
-                    $msg = 'Erreur lors du déplacement de la photo.';
-                    $success = false;
-                } else {
-                    $data = $request->getParsedBody();
+                $userId = $user['id'];
+                $desc = $data['descPicture'];
+                $tags = $this->searchTag($desc);
 
-                    $userId = $user['id'];
-                    $desc = $data['descPicture'];
-                    $tags = $this->searchTag($desc);
+                $picture = new Photo();
+                $picture->message = $desc;
+                $picture->photo = '/' . $path;
+                $picture->id_place = 3;
+                $picture->id_user = $userId;
+                $picture->save();
+                $idPicture = $picture->id;
 
-                    $picture = new Photo();
-                    $picture->message = $desc;
-                    $picture->photo = '/' . $path;
-                    $picture->id_place = 3;
-                    $picture->id_user = $userId;
-                    $picture->save();
-                    $idPicture = $picture->id;
-
-                    foreach ($tags as $t) {
-                        $tag = Tags::where('name', $t)->first();
-                        if (!$tag) {
-                            $tag = new Tags();
-                            $tag->name = $t;
-                            $tag->save();
-                        }
-                        $tagsPhotos = new TagsPhotos();
-                        $tagsPhotos->id_photo = $idPicture;
-                        $tagsPhotos->id_tag = $tag->id;
-                        $tagsPhotos->save();
+                foreach ($tags as $t) {
+                    $tag = Tags::where('name', $t)->first();
+                    if (!$tag) {
+                        $tag = new Tags();
+                        $tag->name = $t;
+                        $tag->save();
                     }
+                    $tagsPhotos = new TagsPhotos();
+                    $tagsPhotos->id_photo = $idPicture;
+                    $tagsPhotos->id_tag = $tag->id;
+                    $tagsPhotos->save();
                 }
             }
         }
-        
+
         //Preparation of datas to send to the twig
-        $datas = array(
-            'success' => $success, 
-            'user' => $user, 
-            'message' => $msg,
-            'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+        $datas = MessageFactory::make($msg, $success);
+
         return $this->view->render($response, 'displayMessage.twig', $datas);
 
     }
