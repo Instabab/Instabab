@@ -134,4 +134,5 @@ class PictureController
 
         return $tags;
     }
+
 }
