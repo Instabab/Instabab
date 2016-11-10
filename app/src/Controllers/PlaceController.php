@@ -58,4 +58,39 @@ final class PlaceController
             $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
+    
+    
+    /**
+     * Method which display all kebab places
+     */
+    public function displayAllPlaces(Request $request, Response $response, $args) {
+        $this->logger->info('Start to display all kebab place');
+        $places = Place::with('photos')->get();
+        
+        if($places != null) {
+            //some places found
+            $this->logger->info('Places found: display places');
+            
+            $menuActive = 4;    
+            
+            //Preparation of datas to send to the twig
+            $datas = array(
+                'places' => $places, 
+                'menuActive' => $menuActive,
+                'user' => Sentinel::forceCheck());
+            
+            $this->view->render($response, 'allPlaces.twig', $datas);    
+        } else {
+            //no places found
+            $this->logger->info('Error: no places found in database');
+            
+            //Preparation of datas to send to the twig
+            $datas = array(
+                'success' => false, 
+                'message' => 'Aucun restaurant n\'a été trouvé. Veuillez réessayer plus tard.', 
+                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
+            
+            $this->view->render($response, 'displayMessage.twig', $datas);
+        }
+    }
 }

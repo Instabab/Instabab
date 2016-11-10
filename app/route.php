@@ -13,6 +13,7 @@ $app->post('/addPicture', 'App\Controllers\PictureController:addPicture')->setNa
 $app->get('/profile/{id}', 'App\Controllers\ProfileController:displayProfile')->setName('displayProfile')->add('checkAuthentication');
 $app->post('/profile/settings/{id}', 'App\Controllers\ProfileController:updateProfile')->setName('updateProfile')->add('checkAuthentication');
 $app->get('/place/{id}', 'App\Controllers\PlaceController:displayPlace')->setName('displayPlace')->add('checkAuthentication');
+$app->get('/places', 'App\Controllers\PlaceController:displayAllPlaces')->setName('displayAllPlaces')->add('checkAuthentication');
 
 //Routes where the user has to be disconnected
 $app->post('/register', 'App\Controllers\UserController:registerUser')->setName('register')->add('checkNoAuthentication');
