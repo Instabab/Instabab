@@ -225,21 +225,15 @@ class PictureController
         $user = Sentinel::forceCheck();
         $this->likeOrDislike($args['id'], $user->id, 1);
 
-
-        $datas = MessageFactory::make('Votre "j\'aime" a bien été pris en compte', true);
-
-        return $this->view->render($response, 'displayMessage.twig', $datas);
+        return $this->displayPost($request, $response, $args);
     }
 
     public function dislike (Request $request, Response $response, $args ){
         $this->logger->info('Start to dislike a publication');
         $user = Sentinel::forceCheck();
         $this->likeOrDislike($args['id'], $user->id, -1);
-
-
-        $datas = MessageFactory::make('Votre "je n\'aime pas" a bien été pris en compte', true);
-
-        return $this->view->render($response, 'displayMessage.twig', $datas);
+        
+        return $this->displayPost($request, $response, $args);
     }
 
     private function likeOrDislike($idPhoto, $idUser, $value){
