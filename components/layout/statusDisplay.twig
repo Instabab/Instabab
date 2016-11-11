@@ -31,7 +31,7 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-                <span class="glyphicon glyphicon-thumbs-up {{isLike}}"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down {{ isDislike }}"></span> {{dislike}} Je n'aime pas | <span class="glyphicon glyphicon-comment"></span> {{post.comments.count}} commentaires | Postée le {{post.frenchDate}}
+                <span class="glyphicon glyphicon-thumbs-up {{isLike}}"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down {{ isDislike }}"></span> {{dislike}} Je n'aime pas | <span class="glyphicon glyphicon-comment"></span> {{post.comments.count}} {% if post.comments.count == 0 or post.comments.count == 1 %} commentaire {% else %} commentaires {% endif %} | Postée le {{post.frenchDate}}
             </p></li>
         </ul>
         {% if user %}

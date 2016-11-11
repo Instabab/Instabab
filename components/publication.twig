@@ -39,9 +39,9 @@
                 {% else %}
                     {% set average = 5 %}
                 {% endif %}
-                <span class="glyphicon glyphicon-thumbs-up {{ isLike }}"></span> {{like}} personnes aiment ça |
-                <span class="glyphicon glyphicon-thumbs-down {{ isDislike }}"></span> {{dislike}} personnes n'aiment pas ça |
-                <span class="glyphicon glyphicon-comment"></span> {{publication.comments.count}} personnes ont commenté<br />
+                <span class="glyphicon glyphicon-thumbs-up {{ isLike }}"></span> {% if like != 0 and like != 1%} {{like}} personnes aiment ça {% elseif like == 0 %} Personne n'aime ça {% else %}{{like}} personne aime ça {% endif %} |
+                <span class="glyphicon glyphicon-thumbs-down {{ isDislike }}"></span> {% if dislike != 0 and dislike != 1%} {{dislike}} personnes n'aiment pas ça {% elseif dislike == 0 %} Personne n'aime pas ça {% else %}{{dislike}} personne n'aime pas ça {% endif %} |
+                <span class="glyphicon glyphicon-comment"></span> {% if publication.comments.count != 0 and publication.comments.count != 1%}{{publication.comments.count}} personnes ont {% elseif publication.comments.count == 0 %}Personne n'a {% else %}{{publication.comments.count}} personne a {% endif %} commenté<br />
                 <strong>Note moyenne :</strong> 
                 {% for i in 0..4 %} 
                     {% if i < average %}
