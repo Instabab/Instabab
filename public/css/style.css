@@ -2838,3 +2838,7 @@ input#pictureInput{
     top: 0px;
     left: 0px;
 }
+
+.is-like{
+    color : #21DEEF;
+}
