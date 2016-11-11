@@ -19,7 +19,7 @@
                         {% set dislike = dislike + 1 %}
                     {% endif %}
                 {% endfor %}
-                <span class="glyphicon glyphicon-thumbs-up"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down"></span> {{dislike}} Je n'aime pas | Postée le {{post.frenchDate}}
+                <span class="glyphicon glyphicon-thumbs-up"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down"></span> {{dislike}} Je n'aime pas | <span class="glyphicon glyphicon-comment"></span> {{post.comments.count}} commentaires | Postée le {{post.frenchDate}}
             </p></li>
         </ul>
         {% if user %}
