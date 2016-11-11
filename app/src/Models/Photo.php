@@ -34,4 +34,20 @@ class Photo extends \Illuminate\Database\Eloquent\Model {
     public function notes() {
 		return $this->hasMany('\App\Models\Notes', 'id_photo');
 	}
+    
+    /**
+     * Return the comments of the photo
+     */
+    public function comments() {
+        return $this->hasMany('\App\Models\Comments', 'id_photo');
+    }
+    
+    /**
+     * Return the french format date
+     */
+    public function frenchDate() {
+        $dateArray = date_parse($this->date);
+        
+        return $dateArray['day'].'/'.$dateArray['month'].'/'.$dateArray['year'].' à '.$dateArray['hour'].':'.$dateArray['minute'];
+    }
 }

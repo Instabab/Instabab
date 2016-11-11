@@ -14,9 +14,16 @@ class User extends \Illuminate\Database\Eloquent\Model {
 	}
     
     /**
-     * Return the user's mark
+     * Return the user's marks
      */
     public function notes() {
-        return $this->belongsTo('\App\Models\Notes', 'id_user');
+        return $this->hasMany('\App\Models\Notes', 'id_user');
+    }
+    
+    /**
+     * Return the user's comments
+     */
+    public function comments() {
+        return $this->hasMany('\App\Models\Comments', 'id_user');
     }
 }

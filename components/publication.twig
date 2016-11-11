@@ -1,0 +1,81 @@
+{% extends 'layout/pattern.twig' %}
+
+{% block content %}
+<div class="main-grids">
+    <div class="top-grids">
+        <h3>{{publication.message|raw}}</h3>
+        <img style="width: 80%;" src="{{publication.photo}}" alt="Publication photo" />
+        <div class="clearfix"> </div>
+        <div class="published">
+            <p>Kebab de <a href="/place/{{publication.place.id}}">{{publication.place.name}}</a></p>
+            <p>
+                {% set like = 0 %}
+                {% set dislike = 0 %}
+                
+                {% for i in 0 .. publication.notes.count-1 %}
+                    {% if publication.notes[i].value == 1 %}
+                        {% set like = like + 1%}
+                    {% elseif publication.notes[i].value == -1 %}
+                        {% set dislike = dislike + 1 %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if dislike != 0 %}
+                    {% set average = (like/publication.notes.count)*5 %}
+                {% elseif like == 0 %}
+                    {% set average = false %}
+                {% else %}
+                    {% set average = 5 %}
+                {% endif %}
+                <span class="glyphicon glyphicon-thumbs-up"></span> {{like}} personnes aiment ça | 
+                <span class="glyphicon glyphicon-thumbs-down"></span> {{dislike}} personnes n'aiment pas ça |
+                <span class="glyphicon glyphicon-comment"></span> {{publication.comments.count}} personnes ont commenté<br />
+                <strong>Note moyenne :</strong> 
+                {% for i in 0..4 %} 
+                    {% if i < average %}
+                        <span class="glyphicon glyphicon-star"></span>
+                    {% else %}
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                    {% endif %}
+                {% endfor %} ({{publication.notes.count}} votes)</p>
+                <p>Photo publiée le {{publication.frenchDate}}</p>
+                {% if user %}
+                    <hr>
+                    <p><a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
+                {% endif %}
+        </div>
+        <div class="all-comments">
+            <h3>Commentaires ({{publication.comments.count}})</h3>
+            {% for comment in publication.comments %}
+                <div class="media-grids comment">
+                    <div class="media">
+                        <h5><a href="/profile/{{comment.user().first().id}}">{{comment.user().first().first_name}} {{comment.user().first().last_name}}</a></h5>
+                        <div class="media-left">
+                            {% if comment.user().first().avatar %}
+                                <img class="media-object img-rounded" src="{{comment.user().first().avatar}}" alt="Profile picture" />
+                            {% else %}
+                                <img src="/images/profiles/default.png" alt="Default profile picture" />
+                            {% endif %}
+                        </div>
+                        <div class="media-body">
+                            <p>{{comment.message}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if user %}
+                <div class="all-comments-info">
+                    <div class="box">
+                        <form method="post" action="/comment/{{publication.id}}">
+                            <textarea placeholder="Votre commentaire..." name="comment" required=" "></textarea>
+                            <input type="submit" value="Poster">
+                            <div class="clearfix"> </div>
+                        </form>
+                    </div>		
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+{% endblock %}

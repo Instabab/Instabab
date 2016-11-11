@@ -9,6 +9,7 @@ use App\Models\Photo;
 use App\Models\Place;
 use App\Models\Tags;
 use App\Models\TagsPhotos;
+use App\Models\Comments;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -34,9 +35,7 @@ class PictureController
         $this->logger->info('Start to add picture');
 
         $success = true;
-        $msg = 'Photo publiée';
-
-
+        $msg = 'Votre photo a bien été publiée.';
 
         if ($_FILES['pictureInput']['error'] > 0) {
             $msg = 'Erreur lors du transfert de la photo.';
@@ -48,7 +47,7 @@ class PictureController
             $path = "images/pictures/$name.$extension_upload";
             $moveSuccess = move_uploaded_file($_FILES['pictureInput']['tmp_name'], $path);
             if (!$moveSuccess) {
-                $msg = 'Erreur lors du déplacement de la photo.';
+                $msg = 'Une erreur est survenue lors du déplacement de la photo.';
                 $success = false;
             } else {
                 $data = $request->getParsedBody();
@@ -121,6 +120,80 @@ class PictureController
 
         return $this->view->render($response, 'displayMessage.twig', $datas);
 
+    }
+    
+    /**
+     * Method which displays a publication
+     */
+    public function displayPost(Request $request, Response $response, $args) {
+        $this->logger->info('Start to display a publication with id: '.$args['id']);
+        $publication = Photo::with('notes', 'comments', 'user', 'place')->find($args['id']); //Look for the post in DB
+        
+        if($publication != null) {
+            //Publication found
+            $this->logger->info('Publication '.$publication->id.' found: display post');
+            
+            //Preparation of datas to send to the twig
+            $datas = BasicFactory::make(1);
+            $datas['publication'] = $publication;
+
+            return $this->view->render($response, 'publication.twig', $datas);
+        } else {
+            //Publication not found
+            $this->logger->info('Error: publication '.$args['id'].' not found');
+            
+            //Preparation of datas to send to the twig
+            $datas = MessageFactory::make('La publication recherchée n\'existe pas ou plus.');
+
+            return $this->view->render($response, 'displayMessage.twig', $datas);
+        }  
+    }
+    
+    /**
+     * Method which adds a comment on a publication
+     */
+    public function addComment(Request $request, Response $response, $args) {
+        $this->logger->info('Start to add a new comment');
+        $publication = Photo::find($args['id']); //Look for the post in DB
+        
+        if($publication != null) {
+            //Publication found
+            $this->logger->info('Publication '.$publication->id.' found: comment publication');
+            
+            $formData = $request->getParsedBody();
+            $comment = filter_var($formData['comment'], FILTER_SANITIZE_STRING);
+            
+            if(!empty($comment)) {
+                $this->logger->info('Successful verifications: insert comment in DB');
+                
+                //Insert the comment in the DB
+                $commentObject = new Comments();
+                $commentObject->message = $comment;
+                $commentObject->id_user = Sentinel::check()->id;
+                $commentObject->id_photo = $publication->id;
+                $commentObject->save();
+                
+                //Preparation of datas to send to the twig
+                $datas = MessageFactory::make('Votre commentaire a bien été ajouté.', true);
+                
+                return $this->view->render($response, 'displayMessage.twig', $datas);
+            } else {
+                $this->logger->info('Error: comment can\'t be empty');
+                
+                //Preparation of datas to send to the twig
+                $datas = MessageFactory::make('Vous ne pouvez pas laisser le champ commentaire vide.');
+
+                return $this->view->render($response, 'displayMessage.twig', $datas);
+            }
+        } else {
+            //Publication not found
+            $this->logger->info('Error: publication '.$args['id'].' not found');
+            
+            //Preparation of datas to send to the twig
+            $datas = MessageFactory::make('La publication que vous souhaitez commenter n\'existe pas ou plus.');
+
+            return $this->view->render($response, 'displayMessage.twig', $datas);
+        }
     }
 
     /**
