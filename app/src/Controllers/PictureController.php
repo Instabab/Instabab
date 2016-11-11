@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 use App\Factories\MessageFactory;
 use App\Factories\BasicFactory;
+use App\Models\Notes;
 use App\Models\Photo;
 use App\Models\Place;
 use App\Models\Tags;
@@ -216,5 +217,48 @@ class PictureController
         }
 
         return $tags;
+    }
+
+
+    public function like (Request $request, Response $response, $args ){
+        $this->logger->info('Start to like a publication');
+        $user = Sentinel::forceCheck();
+        $this->likeOrUnlike($args['id'], $user->id, 1);
+
+
+        $datas = MessageFactory::make('Votre "j\'aime" a bien été pris en compte', true);
+
+        return $this->view->render($response, 'displayMessage.twig', $datas);
+    }
+
+    public function unlike (Request $request, Response $response, $args ){
+        $this->logger->info('Start to unlike a publication');
+        $user = Sentinel::forceCheck();
+        $this->likeOrUnlike($args['id'], $user->id, -1);
+
+
+        $datas = MessageFactory::make('Votre "je n\'aime pas" a bien été pris en compte', true);
+
+        return $this->view->render($response, 'displayMessage.twig', $datas);
+    }
+
+    private function likeOrUnlike($idPhoto, $idUser, $value){
+
+        //if the user has already like or unlike the picture
+        if($note = Notes::where('id_photo', $idPhoto)->where('id_user', $idUser)->first()){
+            if($note->value == ($value * -1)) {
+                $note->value = $value;
+                $note->update();
+            } else
+                $note->delete();
+        }
+        //if the user has not already like or unlike the picture
+        else {
+            $note = new Notes();
+            $note->id_photo = $idPhoto;
+            $note->id_user = $idUser;
+            $note->value = $value;
+            $note->save();
+        }
     }
 }
