@@ -11,12 +11,20 @@
             <p>
                 {% set like = 0 %}
                 {% set dislike = 0 %}
+                {% set isLike = '' %}
+                {% set isDislike = '' %}
                 
                 {% for i in 0 .. publication.notes.count-1 %}
                     {% if publication.notes[i].value == 1 %}
                         {% set like = like + 1%}
+                        {% if publication.notes[i].id_user == user.id %}
+                            {% set isLike='is-like' %}
+                        {% endif %}
                     {% elseif publication.notes[i].value == -1 %}
                         {% set dislike = dislike + 1 %}
+                        {% if publication.notes[i].id_user == user.id %}
+                            {% set isDislike='is-like' %}
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
                 
@@ -27,8 +35,8 @@
                 {% else %}
                     {% set average = 5 %}
                 {% endif %}
-                <span class="glyphicon glyphicon-thumbs-up"></span> {{like}} personnes aiment ça | 
-                <span class="glyphicon glyphicon-thumbs-down"></span> {{dislike}} personnes n'aiment pas ça |
+                <span class="glyphicon glyphicon-thumbs-up {{ isLike }}"></span> {{like}} personnes aiment ça |
+                <span class="glyphicon glyphicon-thumbs-down {{ isDislike }}"></span> {{dislike}} personnes n'aiment pas ça |
                 <span class="glyphicon glyphicon-comment"></span> {{publication.comments.count}} personnes ont commenté<br />
                 <strong>Note moyenne :</strong> 
                 {% for i in 0..4 %} 

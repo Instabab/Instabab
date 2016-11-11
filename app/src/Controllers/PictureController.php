@@ -232,7 +232,7 @@ class PictureController
         $this->logger->info('Start to dislike a publication');
         $user = Sentinel::forceCheck();
         $this->likeOrDislike($args['id'], $user->id, -1);
-        
+
         return $this->displayPost($request, $response, $args);
     }
 
