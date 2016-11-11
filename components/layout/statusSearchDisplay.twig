@@ -4,7 +4,7 @@
                             <img src="{{post.photo}}" alt="Default profile picture" />
                         </div>
                         <div class="media-body">
-                            <h3><a href="/tag/{{tag.id}}" class="title title-info">{{post.message}}</a></h3>
+                            <h3><a href="/tag/{{tag.id}}" class="title title-info">{{post.message|raw}}</a></h3>
                             <ul>
                                 <li><p class="views views-info">De <a href="/profile/{{post.user.id}}">{{post.user.first_name}} {{post.user.last_name}}</a> {% if post.place.id %} - À <a href="/place/{{post.place.id}}">{{post.place.name}}</a> {% endif %}</p></li>
                             </ul>
