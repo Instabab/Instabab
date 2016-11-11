@@ -30,12 +30,12 @@ class PictureController
     /**
      * Method which add a picture to a profil
      */
-    public function addPicture(Request $request, Response $response, $args) {
+    public function addPicture(Request $request, Response $response, $args)
+    {
         $this->logger->info('Start to add picture');
 
         $success = true;
         $msg = 'Photo publiée';
-
 
 
         if ($_FILES['pictureInput']['error'] > 0) {
@@ -55,19 +55,19 @@ class PictureController
 
                 $userId = $user['id'];
 
-                $desc =$data['descPicture'];
+                $desc = $data['descPicture'];
                 $tags = $this->searchTag($desc);
                 $desc = filter_var($desc, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
                 //search for place or create a new place
-                if(!($placeId = filter_var($data['place_chooser'], FILTER_VALIDATE_INT))){
+                if (!($placeId = filter_var($data['place_chooser'], FILTER_VALIDATE_INT))) {
                     $msg = 'Choisissez un vrai kebab !';
                     $success = false;
                 } else {
                     if ($placeId == '-1') {
                         $placeName = filter_var($data['placeName'], FILTER_SANITIZE_STRING);
                         $placeAddress = filter_var($data['placeAddress'], FILTER_SANITIZE_STRING);
-                        if($placeAddress=="" || $placeName==""){
+                        if ($placeAddress == "" || $placeName == "") {
                             $datas = MessageFactory::make('L\'adresse et le nom du restaurant sont requis');
                             return $this->view->render($response, 'displayMessage.twig', $datas);
                         }
@@ -98,9 +98,9 @@ class PictureController
                             $tag->name = $t;
                             $tag->save();
                         }
-                        $idTag =  $tag->id;
+                        $idTag = $tag->id;
 
-                        $desc = str_replace($t,'<a href="/tag/'.$idTag.'">'.$t.'</a>', $desc);
+                        $desc = str_replace($t, '<a href="/tag/' . $idTag . '">' . $t . '</a>', $desc);
 
                         $tagsPhotos = new TagsPhotos();
                         $tagsPhotos->id_photo = $idPicture;
@@ -108,7 +108,7 @@ class PictureController
                         $tagsPhotos->save();
                     }
 
-                    if(sizeof($tags) > 0) {
+                    if (sizeof($tags) > 0) {
                         $picture->message = $desc;
                         $picture->update();
                     }
@@ -123,25 +123,38 @@ class PictureController
 
     }
 
+
     /**
      * function which search the tags into a description
      * @param $desc
      */
-    private function searchTag($desc){
-        $pos = 0;
-        $pos2 = 0;
-        $size = strlen($desc);
+    private function searchTag($desc)
+    {
+        $isTag = false;
+        $descSize = strlen($desc);
         $tags = array();
-        while($pos<$size && $pos = stripos($desc,'#', $pos+1)){
-            $pos2 = stripos($desc, ' ', $pos);
-            if($pos2)
-                $tag = substr($desc, $pos, $pos2-$pos);
-            else
-                $tag = substr($desc, $pos);
-            //the key is the value for delete eventualy double
-            $tags[$tag] = $tag;
+        $currentTag = '#';
+        $currentChar = $desc[0];
+
+        for ($pos = 0; $pos < $descSize; $pos++) {
+            $currentChar = $desc[$pos];
+            if ($isTag) {
+                if (!(ctype_space($currentChar) || ctype_punct($currentChar))) {
+                    $currentTag .= $currentChar;
+                } else {
+                    $tags[$currentTag] = $currentTag;
+                    $isTag = false;
+                }
+            }
+            if ($currentChar == '#') {
+                $isTag = true;
+                $currentTag = '#';
+            }
         }
+        if ($isTag)
+            $tags[$currentTag] = $currentTag;
 
         return $tags;
     }
+
 }
