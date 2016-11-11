@@ -47,6 +47,7 @@ final class ProfileController
             //Preparation of datas to send to the twig
             $datas = BasicFactory::make($menuActive);
             $datas['profile'] = $profile;
+            $datas['posts'] = $profile->photos()->with('user', 'place', 'notes')->get()->sortByDesc('id');
 
             return $this->view->render($response, 'profile.twig', $datas);
         } else {
