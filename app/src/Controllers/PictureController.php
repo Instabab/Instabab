@@ -34,9 +34,7 @@ class PictureController
         $this->logger->info('Start to add picture');
 
         $success = true;
-        $msg = 'Photo publiée';
-
-
+        $msg = 'Votre photo a bien été publiée.';
 
         if ($_FILES['pictureInput']['error'] > 0) {
             $msg = 'Erreur lors du transfert de la photo.';
@@ -48,7 +46,7 @@ class PictureController
             $path = "images/pictures/$name.$extension_upload";
             $moveSuccess = move_uploaded_file($_FILES['pictureInput']['tmp_name'], $path);
             if (!$moveSuccess) {
-                $msg = 'Erreur lors du déplacement de la photo.';
+                $msg = 'Une erreur est survenue lors du déplacement de la photo.';
                 $success = false;
             } else {
                 $data = $request->getParsedBody();
@@ -121,6 +119,33 @@ class PictureController
 
         return $this->view->render($response, 'displayMessage.twig', $datas);
 
+    }
+    
+    /**
+     * Method which displays a publication
+     */
+    public function displayPost(Request $request, Response $response, $args) {
+        $this->logger->info('Start to display a publication with id: '.$args['id']);
+        $publication = Photo::find($args['id']); //Look for the post in DB
+        
+        if($publication != null) {
+            //Publication found
+            $this->logger->info('Publication '.$publication->id.' found: display post');
+            
+            //Preparation of datas to send to the twig
+            $datas = BasicFactory::make(1);
+            $datas['publication'] = $publication;
+
+            return $this->view->render($response, 'publication.twig', $datas);
+        } else {
+            //Publication not found
+            $this->logger->info('Error: publication '.$args['id'].' not found');
+            
+            //Preparation of datas to send to the twig
+            $datas = MessageFactory::make('La publication recherchée n\'existe pas ou plus.');
+
+            return $this->view->render($response, 'displayMessage.twig', $datas);
+        }  
     }
 
     /**
