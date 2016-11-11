@@ -41,7 +41,7 @@
                 <p>Photo publiée le {{publication.frenchDate}}</p>
                 {% if user %}
                     <hr>
-                    <p><a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
+                    <p><a class="statusButton" href="/like/{{ publication.id }}"><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href="/dislike/{{ publication.id }}"><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
                 {% endif %}
         </div>
         <div class="all-comments">

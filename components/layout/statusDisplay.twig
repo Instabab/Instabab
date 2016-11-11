@@ -24,7 +24,7 @@
         </ul>
         {% if user %}
             <hr>
-            <p><a class="statusButton" href="/like/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href="/unlike/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
+            <p><a class="statusButton" href="/like/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href="/dislike/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
         {% endif %}
     </div>
 </div>

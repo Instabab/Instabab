@@ -223,7 +223,7 @@ class PictureController
     public function like (Request $request, Response $response, $args ){
         $this->logger->info('Start to like a publication');
         $user = Sentinel::forceCheck();
-        $this->likeOrUnlike($args['id'], $user->id, 1);
+        $this->likeOrDislike($args['id'], $user->id, 1);
 
 
         $datas = MessageFactory::make('Votre "j\'aime" a bien été pris en compte', true);
@@ -231,10 +231,10 @@ class PictureController
         return $this->view->render($response, 'displayMessage.twig', $datas);
     }
 
-    public function unlike (Request $request, Response $response, $args ){
-        $this->logger->info('Start to unlike a publication');
+    public function dislike (Request $request, Response $response, $args ){
+        $this->logger->info('Start to dislike a publication');
         $user = Sentinel::forceCheck();
-        $this->likeOrUnlike($args['id'], $user->id, -1);
+        $this->likeOrDislike($args['id'], $user->id, -1);
 
 
         $datas = MessageFactory::make('Votre "je n\'aime pas" a bien été pris en compte', true);
@@ -242,9 +242,9 @@ class PictureController
         return $this->view->render($response, 'displayMessage.twig', $datas);
     }
 
-    private function likeOrUnlike($idPhoto, $idUser, $value){
+    private function likeOrDislike($idPhoto, $idUser, $value){
 
-        //if the user has already like or unlike the picture
+        //if the user has already like or dislike the picture
         if($note = Notes::where('id_photo', $idPhoto)->where('id_user', $idUser)->first()){
             if($note->value == ($value * -1)) {
                 $note->value = $value;
@@ -252,7 +252,7 @@ class PictureController
             } else
                 $note->delete();
         }
-        //if the user has not already like or unlike the picture
+        //if the user has not already like or dislike the picture
         else {
             $note = new Notes();
             $note->id_photo = $idPhoto;

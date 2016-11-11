@@ -20,7 +20,7 @@ $app->get('/tags', 'App\Controllers\TagController:displayLastTags')->setName('di
 $app->get('/tag/{id}', 'App\Controllers\TagController:displayTag')->setName('displayTag')->add('checkAuthentication');
 $app->post('/comment/{id}', 'App\Controllers\PictureController:addComment')->setName('addComment')->add('checkAuthentication');
 $app->get('/like/{id}', 'App\Controllers\PictureController:like')->setName('like')->add('checkAuthentication');
-$app->get('/unlike/{id}', 'App\Controllers\PictureController:unlike')->setName('unlike')->add('checkAuthentication');
+$app->get('/dislike/{id}', 'App\Controllers\PictureController:dislike')->setName('dislike')->add('checkAuthentication');
 
 //Routes where the user has to be disconnected
 $app->post('/register', 'App\Controllers\UserController:registerUser')->setName('register')->add('checkNoAuthentication');
