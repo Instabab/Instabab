@@ -1,0 +1,43 @@
+{% extends 'layout/pattern.twig' %}
+
+{% block content %}
+<div class="show-top-grids">
+    <div class="col-sm-12 single-left">
+        <h3>{{publication.message|raw}}</h3>
+        <img style="width: 80%;" src="{{publication.photo}}" alt="Publication photo" />
+        <div class="clearfix"> </div>
+        <div class="published">
+            <p>Kebab de <a>Le Petit Kebab</a></p>
+            <p><span class="glyphicon glyphicon-thumbs-up"></span> <a>Dylan Demougin</a> et 3 autres personnes aiment ça | <span class="glyphicon glyphicon-thumbs-down"></span> <a>Quentin Claudel</a> et 6 autres personnes n'aiment pas ça<br />
+                <strong>Note moyenne :</strong> <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span></p>
+            <p>Photo publiée le 11/11/2016 à 13:18</p>
+        </div>
+        <div class="all-comments">
+            <h3>Commentaires (287)</h3>
+            <div class="media-grids">
+				<div class="media">
+					<h5>Dylan Demougin</h5>
+				    <div class="media-left">
+				        <a href="#">
+										
+				        </a>
+				    </div>
+				    <div class="media-body">
+				        <p>Superbe photo ! Ça donne envie d'aller y faire un tour.</p>
+				    </div>
+				</div>
+            </div>
+            <div class="all-comments-info">
+                <div class="box">
+				    <form>
+				        <textarea placeholder="Message" required=" "></textarea>
+				        <input type="submit" value="Poster">
+				        <div class="clearfix"> </div>
+				    </form>
+				</div>		
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+{% endblock %}
