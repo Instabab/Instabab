@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 use App\Factories\MessageFactory;
 use App\Factories\BasicFactory;
+use App\Models\Notes;
 use App\Models\Photo;
 use App\Models\Place;
 use App\Models\Tags;
@@ -231,4 +232,48 @@ class PictureController
         return $tags;
     }
 
+    /**
+     * Method which adds a like on a picture
+     */
+    public function like (Request $request, Response $response, $args ){
+        $this->logger->info('Start to like a publication');
+        $user = Sentinel::forceCheck();
+        $this->likeOrDislike($args['id'], $user->id, 1);
+
+        return $this->displayPost($request, $response, $args);
+    }
+
+    /**
+     * Method which adds a dislike on a picture
+     */
+    public function dislike (Request $request, Response $response, $args ){
+        $this->logger->info('Start to dislike a publication');
+        $user = Sentinel::forceCheck();
+        $this->likeOrDislike($args['id'], $user->id, -1);
+        
+        return $this->displayPost($request, $response, $args);
+    }
+
+    /**
+     * Private method which insert a like (or dislike) in DB
+     */
+    private function likeOrDislike($idPhoto, $idUser, $value){
+
+        //if the user has already like or dislike the picture
+        if($note = Notes::where('id_photo', $idPhoto)->where('id_user', $idUser)->first()){
+            if($note->value == ($value * -1)) {
+                $note->value = $value;
+                $note->update();
+            } else
+                $note->delete();
+        }
+        //if the user has not already like or dislike the picture
+        else {
+            $note = new Notes();
+            $note->id_photo = $idPhoto;
+            $note->id_user = $idUser;
+            $note->value = $value;
+            $note->save();
+        }
+    }
 }
