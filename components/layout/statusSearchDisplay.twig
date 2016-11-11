@@ -6,7 +6,7 @@
         <div class="media-body">
             <h3><a href="/post/{{post.id}}" class="title title-info">{{post.message|raw}}</a></h3>
             <ul>
-                <li><p class="views views-info">De <a href="/profile/{{post.user.id}}">{{post.user.first_name}} {{post.user.last_name}}</a> {% if post.place.id %} - À <a href="/place/{{post.place.id}}">{{post.place.name}}</a> {% endif %}</p></li>
+                <li><p class="views views-info">De <a href="/profile/{{post.user.id}}">{{post.user.first_name}} {{post.user.last_name}}</a> {% if post.place.id %} - À <a href="/place/{{post.place.id}}">{{post.place.name}}</a> {% endif %} - Le {{post.frenchDate}}</p></li>
             </ul>
         </div>  
     </div>

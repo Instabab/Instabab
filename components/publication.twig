@@ -23,7 +23,7 @@
                 {% if dislike != 0 %}
                     {% set average = (like/publication.notes.count)*5 %}
                 {% elseif like == 0 %}
-                    {% set average = 0 %}
+                    {% set average = false %}
                 {% else %}
                     {% set average = 5 %}
                 {% endif %}
@@ -37,7 +37,8 @@
                     {% else %}
                         <span class="glyphicon glyphicon-star-empty"></span>
                     {% endif %}
-                {% endfor %}</p>
+                {% endfor %} ({{publication.notes.count}} votes)</p>
+                <p>Photo publiée le {{publication.frenchDate}}</p>
                 {% if user %}
                     <hr>
                     <p><a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href=""><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
