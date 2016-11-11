@@ -12,7 +12,7 @@ namespace App\Factories;
 class MessageFactory extends BasicFactory
 {
 
-    public static function make($message, $success=false, $menuActive=1){
+    public static function make($message, $success=false, $menuActive='1'){
         $array = parent::make($menuActive);
         $array['message'] = $message;
         $array['success'] = $success;

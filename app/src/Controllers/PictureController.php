@@ -57,14 +57,16 @@ class PictureController
 
                 $desc =$data['descPicture'];
                 $tags = $this->searchTag($desc);
+                $desc = filter_var($desc, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+                //search for place or create a new place
                 if(!($placeId = filter_var($data['place_chooser'], FILTER_VALIDATE_INT))){
                     $msg = 'Choisissez un vrai kebab !';
                     $success = false;
                 } else {
                     if ($placeId == '-1') {
-                        $placeName = $data['placeName'];
-                        $placeAddress = $data['placeAddress'];
+                        $placeName = filter_var($data['placeName'], FILTER_SANITIZE_STRING);
+                        $placeAddress = filter_var($data['placeAddress'], FILTER_SANITIZE_STRING);
                         if($placeAddress=="" || $placeName==""){
                             $datas = MessageFactory::make('L\'adresse et le nom du restaurant sont requis');
                             return $this->view->render($response, 'displayMessage.twig', $datas);
@@ -96,11 +98,19 @@ class PictureController
                             $tag->name = $t;
                             $tag->save();
                         }
+                        $idTag =  $tag->id;
+
+                        $desc = str_replace($t,'<a href="/tag/'.$idTag.'">'.$t.'</a>', $desc);
 
                         $tagsPhotos = new TagsPhotos();
                         $tagsPhotos->id_photo = $idPicture;
-                        $tagsPhotos->id_tag = $tag->id;
+                        $tagsPhotos->id_tag = $idTag;
                         $tagsPhotos->save();
+                    }
+
+                    if(sizeof($tags) > 0) {
+                        $picture->message = $desc;
+                        $picture->update();
                     }
                 }
             }
@@ -134,5 +144,4 @@ class PictureController
 
         return $tags;
     }
-
 }

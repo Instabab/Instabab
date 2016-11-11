@@ -52,7 +52,7 @@
                                 <label for="place_chooser">Dans quel Kebab à été prise la photo ?</label>
                                 <select class="statut" id="place_chooser" name="place_chooser">
                                     {% for place in places %}
-                                        <option value="{{ place.id }}">{{ place.name }} - {{ place.address }}</option>
+                                        <option value="{{ place.id }}">{{ place.name|raw}} - {{ place.address|raw }}</option>
                                     {% endfor %}
                                     <option value="-1">Autre ...</option>
                                 </select>
