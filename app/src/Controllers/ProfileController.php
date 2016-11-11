@@ -48,7 +48,7 @@ final class ProfileController
             $datas = BasicFactory::make($menuActive);
             $datas['profile'] = $profile;
 
-            $this->view->render($response, 'profile.twig', $datas);    
+            return $this->view->render($response, 'profile.twig', $datas);
         } else {
             //Profile not found
             $this->logger->info('Error: profile '.$args['id'].' not found');
@@ -56,7 +56,7 @@ final class ProfileController
             //Preparation of datas to send to the twig
             $datas = MessageFactory::make('L\'utilisateur recherché n\'existe pas ou plus.');
 
-            $this->view->render($response, 'displayMessage.twig', $datas);
+            return $this->view->render($response, 'displayMessage.twig', $datas);
         }
     }
     

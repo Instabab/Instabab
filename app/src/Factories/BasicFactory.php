@@ -11,9 +11,9 @@ use Cartalyst\Sentinel\Native\Facades\Sentinel;
 class BasicFactory
 {
 
-    public static function make($messageActive='1'){
+    public static function make($menuActive='1'){
         return $array = array(
-                        'messageActive' => $messageActive,
+                        'menuActive' => $menuActive,
                         'user' => Sentinel::check(),
                         'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15),
                         'places' => Place::all()->sortBy('name')

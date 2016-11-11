@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Factories\BasicFactory;
+use App\Factories\MessageFactory;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -39,7 +40,7 @@ final class HomeController
         //Preparation of datas to send to the twig
         $datas = BasicFactory::make();
 
-        $this->view->render($response, 'homepage.twig', $datas);
+        return $this->view->render($response, 'homepage.twig', $datas);
 
         return $response;
     }
@@ -102,24 +103,18 @@ final class HomeController
             }
             
             //Preparation of datas to send to the twig
-            $datas = array(
-                'searchResults' => $searchResults,
-                'searchQuery' => $searchTextValue,
-                'menuActive' => 1,
-                'user' => Sentinel::forceCheck());
-            
+            $datas = BasicFactory::make();
+            $datas['searchResults'] = $searchResults;
+            $datas['searchQuery'] = $searchTextValue;
+
             $this->logger->info('Research successfully ended');
 
             return $this->view->render($response, 'search.twig', $datas);  
         } else {
             //The search query can't be empty
             //Preparation of datas to send to the twig
-            $datas = array(
-                'success' => false, 
-                'user' => Sentinel::check(), 
-                'message' => 'Le champ de recherche ne doit pas être vide pour effectuer une recherche.',
-                'posts' => Photo::with('notes', 'user', 'place')->get()->sortByDesc('id')->take(15));
-            
+            $datas = MessageFactory::make('Le champ de recherche ne doit pas être vide pour effectuer une recherche.');
+
             $this->logger->info('The user didn\'t fill the form');
 
             return $this->view->render($response, 'displayMessage.twig', $datas);
