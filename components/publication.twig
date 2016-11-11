@@ -66,8 +66,8 @@
             {% if user %}
                 <div class="all-comments-info">
                     <div class="box">
-                        <form>
-                            <textarea placeholder="Message" required=" "></textarea>
+                        <form method="post" action="/comment/{{publication.id}}">
+                            <textarea placeholder="Votre commentaire..." name="comment" required=" "></textarea>
                             <input type="submit" value="Poster">
                             <div class="clearfix"> </div>
                         </form>
