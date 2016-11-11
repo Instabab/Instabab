@@ -14,16 +14,20 @@
                     {% set dislike = 0 %}
                     {% set isLike = '' %}
                     {% set isDislike = '' %}
+                    {% set likeButtonName = 'J\'aime' %}
+                    {% set dislikeButtonName = 'Je désapprouve' %}
                 {% for i in 0 .. post.notes.count-1 %}
                     {% if post.notes[i].value == 1 %}
                         {% set like = like + 1%}
                         {% if post.notes[i].id_user == user.id %}
                             {% set isLike='is-like' %}
+                            {% set likeButtonName = 'Je n\'aime plus' %}
                         {% endif %}
                     {% elseif post.notes[i].value == -1 %}
                         {% set dislike = dislike + 1 %}
                         {% if post.notes[i].id_user == user.id %}
                             {% set isDislike = 'is-like' %}
+                            {% set dislikeButtonName = 'Je ne désapprouve plus' %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -32,7 +36,7 @@
         </ul>
         {% if user %}
             <hr>
-            <p><a class="statusButton" href="/like/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-up"></span> J'aime</a> <a class="statusButton" href="/dislike/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-down"></span> Je n'aime pas</a></p>
+            <p> <a class="statusButton" href="/like/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-up"></span> {{ likeButtonName }}</a> <a class="statusButton" href="/dislike/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-down"></span> {{ dislikeButtonName }}</a></p>
         {% endif %}
     </div>
 </div>
