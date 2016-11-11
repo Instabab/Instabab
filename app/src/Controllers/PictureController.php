@@ -126,7 +126,7 @@ class PictureController
      */
     public function displayPost(Request $request, Response $response, $args) {
         $this->logger->info('Start to display a publication with id: '.$args['id']);
-        $publication = Photo::find($args['id']); //Look for the post in DB
+        $publication = Photo::with('notes', 'comments', 'user', 'place')->find($args['id']); //Look for the post in DB
         
         if($publication != null) {
             //Publication found
