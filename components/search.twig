@@ -1,6 +1,10 @@
 {% extends 'layout/pattern.twig' %}
 {% set thereAreResults = false %}
 
+{% block title %}
+    <title>Instabab - Recherche {{searchQuery}}</title>
+{% endblock %}
+
 {% block content %}
     <div class="main-grids">
         <div class="top-grids">
