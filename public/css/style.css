@@ -2268,7 +2268,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		border: none;
 	}
 	form.navbar-form.navbar-right {
-		width: 38%;
+		width: 100%;
 		margin: 0;
 	}
 	.top-search form input[type="submit"] {
@@ -2379,6 +2379,8 @@ background: url(../images/social.png) no-repeat 0px 0px;
 	}
 	.signin a {
 		font-size: 12px;
+        padding : 8px 30%;
+        width: 100%;
 	}
 	.top-search form input[type="text"] {
 		padding: 6px 30px 6px 12px;
@@ -2513,7 +2515,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		background-size: cover !important;
 	}
 }
-@media (max-width: 320px) {
+@media (max-width: 460px) {
 	a.navbar-brand {
 		width: 35%;
 	}
@@ -2530,11 +2532,17 @@ background: url(../images/social.png) no-repeat 0px 0px;
 	.top-search form input[type="text"] {
 		padding: 6px 36px 6px 12px;
 	}
-	.header-top-right {
-		float: none;
-	}
+    .header-top-right {
+        float: none;
+    }
+
+
+    .header-top-right .signin{
+        width: 46%;
+    }
+
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 8em;
+		padding: .8em 0 .8em .8em;
 	}
 	.nav-sidebar ul li a {
 		padding: .5em 0 .5em 12em !important;
