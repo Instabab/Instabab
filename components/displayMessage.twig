@@ -1,6 +1,14 @@
 {% extends '/homepage.twig' %}
 {% block message %}
 
+{% block title %}
+    {% if success %}
+        <title>Instabab - Action réalisée avec succès</title>
+    {% else %}
+        <title>Instabab - Une erreur est survenue</title>
+    {% endif %}
+{% endblock %}
+
 {% if success %}
      <div class="alert alert-success alert-dismissible" role="alert">
          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> {{ message }}
