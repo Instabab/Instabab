@@ -31,12 +31,12 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-                <span class="glyphicon glyphicon-thumbs-up {{isLike}}"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down {{ isDislike }}"></span> {{dislike}} Je n'aime pas | <span class="glyphicon glyphicon-comment"></span> {{post.comments.count}} {% if post.comments.count == 0 or post.comments.count == 1 %} commentaire {% else %} commentaires {% endif %} | Postée le {{post.frenchDate}}
+                <span class="glyphicon glyphicon-thumbs-up {{isLike}}"></span> {{like}} J'aime | <span class="glyphicon glyphicon-thumbs-down {{ isDislike }}"></span> {{dislike}} Je désapprouve | <span class="glyphicon glyphicon-comment"></span> {{post.comments.count}} {% if post.comments.count == 0 or post.comments.count == 1 %} commentaire {% else %} commentaires {% endif %} | Postée le {{post.frenchDate}}
             </p></li>
         </ul>
         {% if user %}
             <hr>
-            <p> <a class="statusButton" href="/like/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-up"></span> {{ likeButtonName }}</a> <a class="statusButton" href="/dislike/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-down"></span> {{ dislikeButtonName }}</a></p>
+            <p> <a class="statusButton" href="/like/{{ post.id }}/{{ pageView }}"><span class="glyphicon glyphicon-thumbs-up"></span> {{ likeButtonName }}</a> <a class="statusButton" href="/dislike/{{ post.id }}/{{ pageView }}"><span class="glyphicon glyphicon-thumbs-down"></span> {{ dislikeButtonName }}</a></p>
         {% endif %}
     </div>
 </div>

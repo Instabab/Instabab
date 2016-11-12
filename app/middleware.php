@@ -32,4 +32,4 @@ function checkNoAuthentication($request, $response, $next) {
     } else { 
         return $response->withRedirect('/need/logout');  
     } 
-} 
+}

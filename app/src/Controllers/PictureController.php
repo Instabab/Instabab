@@ -235,9 +235,16 @@ class PictureController
     public function like (Request $request, Response $response, $args ){
         $this->logger->info('Start to like a publication');
         $user = Sentinel::forceCheck();
-        $this->likeOrDislike($args['id'], $user->id, 1);
+        $id = $args['id'];
 
-        return $this->displayPost($request, $response, $args);
+        if(!$picture = Photo::find($id)){
+            $datas = MessageFactory::make('La photo à aimer est introuvable, veuillez réessayer plus tard.');
+            return $this->view->render($response, $request, $datas);
+        }
+
+        $newLocation = $this->likeOrDislike($id, $user->id, 1, $args, $picture);
+        return $response->withHeader('location', $newLocation);
+
     }
 
     /**
@@ -246,15 +253,21 @@ class PictureController
     public function dislike (Request $request, Response $response, $args ){
         $this->logger->info('Start to dislike a publication');
         $user = Sentinel::forceCheck();
-        $this->likeOrDislike($args['id'], $user->id, -1);
+        $id = $args['id'];
 
-        return $this->displayPost($request, $response, $args);
+        if(!$picture = Photo::find($id)){
+            $datas = MessageFactory::make('La photo à désapprouver est introuvable, veuillez réessayer plus tard.');
+            return $this->view->render($response, $request, $datas);
+        }
+
+        $newLocation = $this->likeOrDislike($id, $user->id, -1, $args, $picture);
+        return $response->withHeader('location', $newLocation);
     }
 
     /**
      * Private method which insert a like (or dislike) in DB
      */
-    private function likeOrDislike($idPhoto, $idUser, $value){
+    private function likeOrDislike($idPhoto, $idUser, $value, $args, $picture){
 
         //if the user has already like or dislike the picture
         if($note = Notes::where('id_photo', $idPhoto)->where('id_user', $idUser)->first()){
@@ -272,5 +285,31 @@ class PictureController
             $note->value = $value;
             $note->save();
         }
+        $newLocation = '';
+
+        switch($args['type']) {
+            case 'post':
+                $newLocation = '/post/'.$idPhoto ;
+                break;
+            case 'place':
+                $newLocation = '/place/'.$picture->id_place ;
+                break;
+            case 'profile':
+                $newLocation = '/profile/'.$picture->id_user ;
+                break;
+            case 'tag':
+                $newLocation = '/tag/'.$args['idTag'] ;
+                break;
+            case 'homePage':
+                $newLocation = '/';
+                break;
+            default :
+                $newLocation = '/';
+                break;
+        }
+
+        return $newLocation;
     }
+
+
 }
