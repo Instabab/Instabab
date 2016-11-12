@@ -174,11 +174,8 @@ class PictureController
                 $commentObject->id_user = Sentinel::check()->id;
                 $commentObject->id_photo = $publication->id;
                 $commentObject->save();
-                
-                //Preparation of datas to send to the twig
-                $datas = MessageFactory::make('Votre commentaire a bien été ajouté.', true);
-                
-                return $this->view->render($response, 'displayMessage.twig', $datas);
+                               
+                return $this->displayPost($request, $response, $args);
             } else {
                 $this->logger->info('Error: comment can\'t be empty');
                 
