@@ -20,6 +20,7 @@
                     </div>  
                 </div>
             </div>
+            {% set pageView = 'tag/' ~ tag.id %}
             {% for post in posts %}
                 {% include 'layout/statusDisplay.twig' %}
             {% endfor %}

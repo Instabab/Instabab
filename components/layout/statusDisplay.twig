@@ -36,7 +36,7 @@
         </ul>
         {% if user %}
             <hr>
-            <p> <a class="statusButton" href="/like/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-up"></span> {{ likeButtonName }}</a> <a class="statusButton" href="/dislike/{{ post.id }}"><span class="glyphicon glyphicon-thumbs-down"></span> {{ dislikeButtonName }}</a></p>
+            <p> <a class="statusButton" href="/like/{{ post.id }}/{{ pageView }}"><span class="glyphicon glyphicon-thumbs-up"></span> {{ likeButtonName }}</a> <a class="statusButton" href="/dislike/{{ post.id }}/{{ pageView }}"><span class="glyphicon glyphicon-thumbs-down"></span> {{ dislikeButtonName }}</a></p>
         {% endif %}
     </div>
 </div>

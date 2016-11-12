@@ -25,6 +25,7 @@
                     </div>  
                 </div>
             </div>
+            {% set pageView = 'profile' %}
             {% for post in posts %}
                 {% include 'layout/statusDisplay.twig' %}
             {% endfor %}

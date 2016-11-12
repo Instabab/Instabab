@@ -9,6 +9,7 @@
         <div class="recommended-info">
             <h3>Nos membres ont partagé...</h3>
         </div>
+        {% set pageView = 'homePage' %}
         {% for post in posts %} 
             {% include 'layout/statusDisplay.twig' %}
         {% endfor %}
