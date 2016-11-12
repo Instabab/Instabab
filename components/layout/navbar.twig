@@ -44,10 +44,11 @@
                     </div>
                     <!--//pop-up-box -->
                 <div id="dialog-share-picture" class="mfp-hide small-dialog">
-                    <h3>Partager une Photo</h3> 
+                    <h3>Partager une Photo</h3>
+                    <form method="post" action="/addPicture" id="uploadPictureForm" enctype="multipart/form-data">
                     <div class="social-sits">
                         <div class="uploadForm">
-                            <form method="post" action="/addPicture" id="uploadPictureForm" enctype="multipart/form-data">
+                            
                                 <textarea class="statut" name="descPicture" rows="10" placeholder="Décrivez votre Kebab..."></textarea>
                                 <label for="place_chooser">Dans quel Kebab à été prise la photo ?</label>
                                 <select class="statut" id="place_chooser" name="place_chooser">
@@ -61,31 +62,30 @@
                                     <input  class="statut" type="text" placeholder="Adresse du restaurant" name="placeAddress" maxlength="150" required />
                                 </div>
                                 <input type="submit" value="Envoyer" />
+                             
+                        </div>
+				    </div>
+                    <div class="signup">
+                        <div class="upload-right">
+                            <div class="upload-file">
+                                <div class="services-icon">
+                                    
+                                    <img src="/images/upload-logo-icon.png" class="false" alt="upload logo" id="picturePreview" aria-hidden="true" />
+                                    <input type="file" name="pictureInput" id="pictureInput" />
+                                </div>
 
-                            </div>
-				        </div>
-                        <div class="signup">
-                            <div class="upload-right">
-                                <div class="upload-file">
-                                    <div class="services-icon">
-
-                                        <img src="/images/upload-logo-icon.png" imageChoose="false" id="picturePreview" aria-hidden="true" />
-                                        <input type="file" name="pictureInput" id="pictureInput" value="Choose file..">
-                                    </div>
-
-                            </form>
-                                    <script>
+                                <script>
                                         $('#pictureInput').on('change', function() {
                                             var file = $(this)[0].files; // get the current value of the input field.
                                             $image_preview = $('#picturePreview');
                                             $image_preview.attr('src', window.URL.createObjectURL(file[0]));
-                                            $image_preview.attr('imageChoose', 'true');
+                                            $image_preview.attr('class', 'true');
                                         });
 
                                         $('#uploadPictureForm').on('submit', function() {
                                             $image_preview = $('#picturePreview');
                                             $res=true;
-                                            if($image_preview.attr('imageChoose')==='false'){
+                                            if($image_preview.attr('class')==='false'){
                                                 alert("Il faut mettre une image !");
                                                 $res = false;
                                             }
@@ -107,17 +107,18 @@
                                             else
                                                 element.style.display= "none";
                                         }
-                                    </script>
-                                </div>
-                                <div class="upload-info">
-                                    <h5>Sélectionner une Photo</h5>
-                                    <span>ou</span>
-                                    <p>Glisser/Déposer une Photo</p>
-                                </div>
+                                </script>
+                            </div>
+                            <div class="upload-info">
+                                <h5>Sélectionner une Photo</h5>
+                                <span>ou</span>
+                                <p>Glisser/Déposer une Photo</p>
                             </div>
                         </div>
-					    <div class="clearfix"> </div>
-				    </div>	
+                    </div>
+                    </form>
+				    <div class="clearfix"> </div>
+				</div>	
                 
                     <div class="signin">
                            <a href="#dialog-disconnect" class="play-icon popup-with-zoom-anim">Deconnexion</a>
@@ -151,8 +152,8 @@
                                 <input type="text" name="email" class="email" placeholder="Adresse mail" title="Adresse mail" />
                                 <input type="text" name="firstName" class="email" placeholder="Prénom" title="Prénom" />
                                 <input type="text" name="lastName" class="email" placeholder="Nom" title="Nom" />
-                                <input type="password" name="password" class="password" placeholder="Mot de passe" title="Mot de passe" required="required" pattern=".{6,}" title="Minimum 6 characters required" />
-                                <input type="password" name="passwordVerification" class="password" placeholder="Mot de passe (vérification)" title="Mot de passe (vérification)" required="required" pattern=".{6,}" title="Minimum 6 characters required" />
+                                <input type="password" name="password" class="password" placeholder="Mot de passe" title="Mot de passe" required="required" pattern=".{6,}" />
+                                <input type="password" name="passwordVerification" class="password" placeholder="Mot de passe (vérification)" title="Mot de passe (vérification)" required="required" pattern=".{6,}" />
                                 <textarea name="description" class="email" style="display:none"></textarea>
                                 <div class="continue-button">
                                     <input type="submit" value="Inscription" />
