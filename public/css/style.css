@@ -2831,6 +2831,10 @@ a.statusButton {
     font-size: 12px;
 }
 
+a.statusButton:hover {
+    color: white;
+}
+
 .place a {
     cursor:pointer;
 }
