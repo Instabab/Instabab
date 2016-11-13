@@ -95,9 +95,7 @@ final class UserController
          if(filter_var($userForm['email'], FILTER_VALIDATE_EMAIL, FILTER_FLAG_PATH_REQUIRED) && !empty($userForm['password'])) {
             //Verification of connexion
              if($userInfo = Sentinel::forceAuthenticate($userForm)){
-                 $datas = MessageFactory::make('Bravo '.$userInfo['first_name'].' '.$userInfo['last_name'].', vous êtes connecté.', true);
-
-                return $this->view->render($response, 'displayMessage.twig', $datas);
+                return $response->withHeader('location', '/');
              } else {
                  $datas = MessageFactory::make('Mail ou mot de passe invalide !');
 
@@ -118,8 +116,7 @@ final class UserController
          $this->logger->info("Start to logout an user");
          Sentinel::logout();
 
-         $datas = MessageFactory::make('Vous n\'êtes plus connecté.', true);
-         return $this->view->render($response, 'displayMessage.twig', $datas);
+         return $response->withHeader('location', '/');
      }
     /**
      * Method which display an authentication error to the user (when he needs to be connected)
