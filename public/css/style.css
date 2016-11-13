@@ -38,11 +38,11 @@ form.navbar-form.navbar-right {
     margin-right: 1em;
     width: 50%;
     float: left !important;
-    margin-left: 10em;
+    margin-left: 3em;
     position: relative;
 }
 .navbar-form .form-control {
-    width: 100%;
+    width: 90%;
 }
 .top-search form input[type="text"] {
     position: relative;
@@ -63,7 +63,7 @@ form.navbar-form.navbar-right {
     position: absolute !important;
     outline: none !important;
     top: 9px;
-    right: 26px;
+    right: 79px;
 }
 .header-top-right {
   float: right;
@@ -139,7 +139,7 @@ ul.nav.nav-sidebar li a{
     color: #BBBBBB;
     font-size: 13px;
     font-weight: 600;
-    padding: .8em 0 .8em 3em;
+    padding: .8em 0 .8em 2em;
 }
 .main-grids {
   padding: 0 0 1em 1em;
@@ -1967,6 +1967,12 @@ background: url(../images/social.png) no-repeat 0px 0px;
 	form.navbar-form.navbar-right {
 		width: 43%;
 	}
+    .navbar-form .form-control {
+        width: 100%;
+    }
+    .top-search form input[type="submit"] {
+        right: 26px;
+    }
 	.slid-bottom-grid {
 		width: 50%;
 	}
@@ -2059,7 +2065,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		margin: 0;
 	}
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 35em;
+		padding: .8em 0 .8em .8em;
 	}
 	.sidebar{
 	    padding:0;
@@ -2141,7 +2147,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		width: 33%;
 	}
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 27em;
+		padding: .8em 0 .8em .8em;
 	}
 	.nav-sidebar ul li a {
 		padding: .5em 0 .5em 31em !important;
@@ -2268,7 +2274,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		border: none;
 	}
 	form.navbar-form.navbar-right {
-		width: 38%;
+		width: 100%;
 		margin: 0;
 	}
 	.top-search form input[type="submit"] {
@@ -2286,7 +2292,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		padding: 0;
 	}
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 19em;
+		padding: .8em 0 .8em .8em;
 	}
 	.nav-sidebar ul li a {
 		padding: .5em 0 .5em 26em !important;
@@ -2379,6 +2385,8 @@ background: url(../images/social.png) no-repeat 0px 0px;
 	}
 	.signin a {
 		font-size: 12px;
+        padding : 8px 30%;
+        width: 100%;
 	}
 	.top-search form input[type="text"] {
 		padding: 6px 30px 6px 12px;
@@ -2432,7 +2440,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		width: 50%;
 	}
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 14em;
+		padding: .8em 0 .8em .8em;
 	}
 	.resent-grid-info p.author-info {
 		font-size: 13px;
@@ -2513,7 +2521,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		background-size: cover !important;
 	}
 }
-@media (max-width: 320px) {
+@media (max-width: 460px) {
 	a.navbar-brand {
 		width: 35%;
 	}
@@ -2530,11 +2538,17 @@ background: url(../images/social.png) no-repeat 0px 0px;
 	.top-search form input[type="text"] {
 		padding: 6px 36px 6px 12px;
 	}
-	.header-top-right {
-		float: none;
-	}
+    .header-top-right {
+        float: none;
+    }
+
+
+    .header-top-right .signin{
+        width: 46%;
+    }
+
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 8em;
+		padding: .8em 0 .8em .8em;
 	}
 	.nav-sidebar ul li a {
 		padding: .5em 0 .5em 12em !important;

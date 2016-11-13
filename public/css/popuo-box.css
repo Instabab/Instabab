@@ -488,7 +488,7 @@ button::-moz-focus-inner {
 .login input[type="text"],.login input[type="password"]{
 	width:90%;
 	padding:5px;
-	margin:3px 0;x
+	margin:3px 0;
 	border: 1px solid #a63d56;
 	outline: none !important;
 }
@@ -603,7 +603,7 @@ button::-moz-focus-inner {
 	}
 }
 @media all and (max-width:768px){
-	#small-dialog, #small-dialog2, #small-dialog3, #small-dialog4, #small-dialog5, #small-dialog6, #small-dialog7, #small-dialog8 {
+	#small-dialog, #small-dialog2, #small-dialog3, #small-dialog4, #small-dialog5, #small-dialog6, #small-dialog7, #small-dialog8 .small-dialog{
 		 max-width: 80%;
 	}
 	#small-dialog8 {
@@ -662,11 +662,11 @@ button::-moz-focus-inner {
 		margin: 0 0 2em 0;
 	}
 }
-@media all and (max-width:320px){
-	#small-dialog, #small-dialog2 {
+@media all and (max-width:480px){
+	#small-dialog, #small-dialog2, .small-dialog {
 		max-width: 95% !important;
 	}
-	#small-dialog, #small-dialog2, #small-dialog3, #small-dialog4, #small-dialog5, #small-dialog6, #small-dialog7, #small-dialog8 {
+	#small-dialog, #small-dialog2, #small-dialog3, #small-dialog4, #small-dialog5, #small-dialog6, #small-dialog7, #small-dialog8, .small-dialog{
 		max-width: 95%;
 	}
 	.comments-area span.label,.comments-area span.text-field{
@@ -840,7 +840,7 @@ button::-moz-focus-inner {
   text-align: center;
 }
 .video-information-text p{
-	color: ##525254;
+	color: #525254;
 	margin: 1em 0;
 	font-size: 14px;
 	line-height: 1.8em;	
