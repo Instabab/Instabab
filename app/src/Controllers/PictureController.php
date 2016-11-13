@@ -118,10 +118,13 @@ class PictureController
         }
 
         //Preparation of datas to send to the twig
-        $datas = MessageFactory::make($msg, $success);
+        if($success) {
+            return $response->withHeader('location', '/');
+        } else {
+            $datas = MessageFactory::make($msg, $success);
 
-        return $this->view->render($response, 'displayMessage.twig', $datas);
-
+            return $this->view->render($response, 'displayMessage.twig', $datas);
+        }
     }
     
     /**
@@ -175,7 +178,7 @@ class PictureController
                 $commentObject->id_photo = $publication->id;
                 $commentObject->save();
                                
-                return $this->displayPost($request, $response, $args);
+                return $response->withHeader('location', '/post/'.$publication->id);
             } else {
                 $this->logger->info('Error: comment can\'t be empty');
                 

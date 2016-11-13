@@ -40,8 +40,7 @@ final class HomeController
         //Preparation of datas to send to the twig
         $datas = BasicFactory::make();
 
-        return $this->view->render($response, 'homepage.twig', $datas);
-
+        $this->view->render($response, 'homepage.twig', $datas);
         return $response;
     }
     
