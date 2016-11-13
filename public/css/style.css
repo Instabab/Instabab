@@ -11,10 +11,14 @@ body{
 }
 body a {
   transition: 0.5s all;
-  -webkit-transition: 0.5s all;																																												
+  -webkit-transition: 0.5s all;																	color: #21DEEF;																										
   -o-transition: 0.5s all;
   -moz-transition: 0.5s all;
   -ms-transition: 0.5s all;
+}
+body a:hover {
+    text-decoration: none;
+    color: #21DEEF;	
 }
 a.navbar-brand {
    padding: 0 0 0 1em;
@@ -1258,10 +1262,7 @@ width:100%;
     font-size: 14px;
     font-weight: 600;
     margin: 0 0 20px 0;
-    color: #0076CC;
-}
-.media h5 a {
-  color: #DF2229;
+    color: ##21DEEF;
 }
 .media-left a {
     width: 65px;
