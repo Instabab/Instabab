@@ -38,11 +38,11 @@ form.navbar-form.navbar-right {
     margin-right: 1em;
     width: 50%;
     float: left !important;
-    margin-left: 10em;
+    margin-left: 3em;
     position: relative;
 }
 .navbar-form .form-control {
-    width: 100%;
+    width: 90%;
 }
 .top-search form input[type="text"] {
     position: relative;
@@ -63,7 +63,7 @@ form.navbar-form.navbar-right {
     position: absolute !important;
     outline: none !important;
     top: 9px;
-    right: 26px;
+    right: 79px;
 }
 .header-top-right {
   float: right;
@@ -1967,6 +1967,13 @@ background: url(../images/social.png) no-repeat 0px 0px;
 	form.navbar-form.navbar-right {
 		width: 43%;
 	}
+
+    .navbar-form .form-control {
+        width: 100%;
+    }
+    .top-search form input[type="submit"] {
+        right: 26px;
+    }
 	.slid-bottom-grid {
 		width: 50%;
 	}
@@ -2059,7 +2066,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		margin: 0;
 	}
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 35em;
+		padding: .8em 0 .8em .8em;
 	}
 	.sidebar{
 	    padding:0;
@@ -2141,7 +2148,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		width: 33%;
 	}
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 27em;
+		padding: .8em 0 .8em .8em;
 	}
 	.nav-sidebar ul li a {
 		padding: .5em 0 .5em 31em !important;
@@ -2286,7 +2293,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		padding: 0;
 	}
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 19em;
+		padding: .8em 0 .8em .8em;
 	}
 	.nav-sidebar ul li a {
 		padding: .5em 0 .5em 26em !important;
@@ -2434,7 +2441,7 @@ background: url(../images/social.png) no-repeat 0px 0px;
 		width: 50%;
 	}
 	ul.nav.nav-sidebar li a {
-		padding: .8em 0 .8em 14em;
+		padding: .8em 0 .8em .8em;
 	}
 	.resent-grid-info p.author-info {
 		font-size: 13px;
